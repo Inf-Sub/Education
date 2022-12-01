@@ -1,2 +1,13 @@
+# Header 1
+
 *Italic*
-**Bold**
+
+**HalfBold**
+
+~~Strikethrough~~
+
+
+## Header 2
+
+
+
