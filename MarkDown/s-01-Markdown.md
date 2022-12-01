@@ -1,4 +1,6 @@
-# Header 1
+# Markdown
+
+**Markdown** – это облегченный язык разметки, который является инструментом преобразования кода в HTML. Главной особенностью данного языка является максимально простой синтаксис, который служит для упрощения написания и чтения кода разметки, что, в свою очередь, позволяет легко его корректировать. 
 
 *Italic*
 
@@ -7,7 +9,7 @@
 ~~Strikethrough~~
 
 
-## Header 2 (Нумерованные списки)
+## Нумерованные списки
 
 1. text
 
@@ -15,7 +17,7 @@
 
 3. text
 
-## Header 3 (Ненумерованные списки)
+## Ненумерованные списки
 
 * text
 
@@ -23,8 +25,8 @@
 
 * text
 
-## Header 4 (Image)
+## Image
 
-![Alternative Avatar by InfSub](/images/InfSub-Immortel-640x640-color-1.jpg "Avatar")
+![Alternative Avatar by InfSub](/MarkDown/images/InfSub-Immortel-640x640-color-1.jpg "Avatar")
 
  
