@@ -15,4 +15,16 @@
 
 3. text
 
+## Header 3 (Ненумерованные списки)
 
+* text
+
+* text
+
+* text
+
+## Header 4 (Image)
+
+![Alternative Avatar by InfSub](/images/InfSub-Immortel-640x640-color-1.jpg "Avatar")
+
+ 
