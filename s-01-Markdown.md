@@ -7,7 +7,12 @@
 ~~Strikethrough~~
 
 
-## Header 2
+## Header 2 (Нумерованные списки)
 
+1. text
+
+2. text
+
+3. text
 
 
