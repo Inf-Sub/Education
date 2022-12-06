@@ -3,7 +3,11 @@ class GameManager:
     This class is designed to manage chats and dice in them.
     '''
     def __init__(self, chat_id: int) -> None:
-        pass
+        if not chat_id is None:
+            self.chat_id = chat_id
+        else:
+            print_r(f"Error: Incorrect telegram Chat ID")
+            return
 
     def _set_gamers(self, user_id: int) -> None:
         pass
