@@ -156,6 +156,8 @@ class TelegramBotAPI:
         # выйти из текущей интерации цикла (временно return)
         if api_data['result'] is None:
             return
+        else:
+            return api_data
 
         # incorrectly
         if self._chat_id is None:
