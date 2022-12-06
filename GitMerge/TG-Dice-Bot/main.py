@@ -171,12 +171,8 @@ class TelegramBotAPI:
         if api_data['result'] is None:
             return
         else:
-<<<<<<< HEAD
-            return api_data
-=======
             print(f"{'=' * 30}\nResult Type: {type(api_data['result'])}")
             return api_data['result']
->>>>>>> bot_variation_number_2
 
         # incorrectly
         #if self._chat_id is None:
