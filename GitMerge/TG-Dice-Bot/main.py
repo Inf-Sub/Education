@@ -1,10 +1,10 @@
 class GameManager:
     '''
-    Этот класс предназначен для управления чатами и кубиками в них.
-    Для каждого чата, создаем отдельный объект, инициализируем раунд, и добавляем игроков 
-    пока не завершен раунд.
-    Если есть несколько победителей, то объявляем следующий раунд, в котором играют только 
-    победители предыдущего раунда. До тех пор, пока не останется только один.
+    This class is designed to manage chats and cubes in them.
+    For each chat, we create a separate object, initialize the round, and add players 
+    until the round is completed.
+    If there are several winners, then we announce the next round, in which only the 
+    winners of the previous round play. Until only one remains.
     '''
     def __init__(self, chat_id: int) -> None:
         if not chat_id is None:
