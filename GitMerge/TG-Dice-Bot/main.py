@@ -8,7 +8,7 @@ class GameManager:
     def _set_gamers(self, user_id: int) -> None:
         pass
 
-    def _set_round(self, round_number: int = 1) -> None:
+    def _set_round(self, round_number: int = 1) -> int:
         pass
 
 
@@ -132,7 +132,7 @@ class TelegramBotAPI:
             'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
         }
 
-    def get_updates(self) -> None:    
+    def get_updates(self) -> list:    
         ### imports ###
         import requests as req
 
@@ -153,13 +153,16 @@ class TelegramBotAPI:
         api_data = request_result.json()
         print(f"{'=' * 30}\n{api_data}")
 
-        # выйти из текущей интерации цикла (временно return)
+        # выйти из текущей интерации цикла (временно? return)
         if api_data['result'] is None:
             return
+        else:
+            print(f"{'=' * 30}\nResult Type: {type(api_data['result'])}")
+            return api_data['result']
 
         # incorrectly
-        if self._chat_id is None:
-            self._chat_id = api_data['result']['message']['chat']['id']
+        #if self._chat_id is None:
+        #    self._chat_id = api_data['result']['message']['chat']['id']
 
 
 
