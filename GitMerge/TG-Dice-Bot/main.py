@@ -7,6 +7,7 @@ class GameManager:
     winners of the previous round play. Until only one remains.
     '''
     def __init__(self, chat_id: int) -> None:
+<<<<<<< HEAD
         if not chat_id is None:
             self.chat_id = chat_id
         else:
@@ -21,6 +22,18 @@ class GameManager:
 
     def _get_chat_id(self) -> int:
         pass
+=======
+        self.chat = chat_id
+        self.gamers = self._set_gamers()
+        self.round = self._set_game_round()
+
+
+    def _set_gamers(self, user_id: int) -> list:
+        pass
+
+    def _set_game_round(self, game_round_number: int = 1) -> int:
+        return ++game_round_number
+>>>>>>> bot_variation_number_1
 
 
 
