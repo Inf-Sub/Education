@@ -1,6 +1,10 @@
 class GameManager:
     '''
-    This class is designed to manage chats and dice in them.
+    Этот класс предназначен для управления чатами и кубиками в них.
+    Для каждого чата, создаем отдельный объект, инициализируем раунд, и добавляем игроков 
+    пока не завершен раунд.
+    Если есть несколько победителей, то объявляем следующий раунд, в котором играют только 
+    победители предыдущего раунда. До тех пор, пока не останется только один.
     '''
     def __init__(self) -> None:
         self.chat_id = self._get_chat_id()
@@ -9,8 +13,8 @@ class GameManager:
     def _set_gamers(self, user_id: int) -> None:
         pass
 
-    def _set_round(self, round_number: int = 1) -> None:
-        pass
+    def _set_round(self, round_number: int = 1) -> int:
+        return (round_number + 1)
 
     def _get_chat_id(self) -> int:
         pass
