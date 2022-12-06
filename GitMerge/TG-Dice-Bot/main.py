@@ -3,13 +3,16 @@ class GameManager:
     This class is designed to manage chats and dice in them.
     '''
     def __init__(self, chat_id: int) -> None:
+        self.chat = chat_id
+        self.gamers = self._set_gamers()
+        self.round = self._set_game_round()
+
+
+    def _set_gamers(self, user_id: int) -> list:
         pass
 
-    def _set_gamers(self, user_id: int) -> None:
-        pass
-
-    def _set_round(self, round_number: int = 1) -> int:
-        pass
+    def _set_game_round(self, game_round_number: int = 1) -> int:
+        return ++game_round_number
 
 
 
