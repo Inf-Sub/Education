@@ -10,7 +10,7 @@ class GameManager:
         if not chat_id is None:
             self.chat_id = chat_id
         else:
-            print_r(f"Error: Incorrect telegram Chat ID")
+            print(f"Error: Incorrect telegram Chat ID")
             return
         
         self.gamers = self._set_gamers()
