@@ -1,3 +1,18 @@
+class GameManager:
+    '''
+    This class is designed to manage chats and dice in them.
+    '''
+    def __init__(self, chat_id: int) -> None:
+        pass
+
+    def _set_gamers(self, user_id: int) -> None:
+        pass
+
+    def _set_round(self, round_number: int = 1) -> None:
+        pass
+
+
+
 class ConfigReader:
     '''
     This class returns the program settings from the .config and .env files necessary for operation
