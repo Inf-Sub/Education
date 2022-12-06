@@ -6,9 +6,12 @@ class GameManager:
     Если есть несколько победителей, то объявляем следующий раунд, в котором играют только 
     победители предыдущего раунда. До тех пор, пока не останется только один.
     '''
-    def __init__(self) -> None:
-        self.chat_id = self._get_chat_id()
-        pass
+    def __init__(self, chat_id: int) -> None:
+        if not chat_id is None:
+            self.chat_id = chat_id
+        else:
+            print_r(f"Error: Incorrect telegram Chat ID")
+            return
 
     def _set_gamers(self, user_id: int) -> None:
         pass
@@ -140,7 +143,7 @@ class TelegramBotAPI:
             'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
         }
 
-    def get_updates(self) -> None:    
+    def get_updates(self) -> list:    
         ### imports ###
         import requests as req
 
@@ -161,15 +164,20 @@ class TelegramBotAPI:
         api_data = request_result.json()
         print(f"{'=' * 30}\n{api_data}")
 
-        # выйти из текущей интерации цикла (временно return)
+        # выйти из текущей интерации цикла (временно? return)
         if api_data['result'] is None:
             return
         else:
+<<<<<<< HEAD
             return api_data
+=======
+            print(f"{'=' * 30}\nResult Type: {type(api_data['result'])}")
+            return api_data['result']
+>>>>>>> bot_variation_number_2
 
         # incorrectly
-        if self._chat_id is None:
-            self._chat_id = api_data['result']['message']['chat']['id']
+        #if self._chat_id is None:
+        #    self._chat_id = api_data['result']['message']['chat']['id']
 
 
 
