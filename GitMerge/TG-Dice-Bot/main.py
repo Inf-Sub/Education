@@ -102,6 +102,8 @@ class ConfigReader:
             self.api['api_key'] = os.getenv('api_key')
         if os.getenv('api_url') is not None:
             self.api['api_url'] = os.getenv('api_url')
+        if os.getenv('tg_chat_id') is not None:
+            self.api['tg_chat_id'] = os.getenv('tg_chat_id')
 
 
 
@@ -121,7 +123,6 @@ class TelegramBotAPI:
         # import fake_useragent as fua
         # import math
 
-        self._chat_id = ''
         if api_url and api_key:
             self._tg_api_url = api_url + api_key
         #    self._api_url = api_url
@@ -132,6 +133,18 @@ class TelegramBotAPI:
 
         print(f"{'=' * 30}\nПолучен URL API with API Key:\ntg_api_url: {self._tg_api_url}")
 
+        self._headers = {
+        #    'User-Agent': user_agent,
+            'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
+        }
+
+        self._data = self.get_updates()
+        self._chat_id = self._data[0]['message']['chat']['id']
+        print(f"{'=' * 30}\nTelegram Chat ID: {self._chat_id}")
+        #print(f"{'=' * 30}\nself._data: {type(self._data)}\n{self._data}")
+
+
+
 
         # fake useragent
         #fake_ua = fua.UserAgent()
@@ -141,10 +154,6 @@ class TelegramBotAPI:
         #    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
         
 
-        self._headers = {
-        #    'User-Agent': user_agent,
-            'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
-        }
 
     def get_updates(self) -> list:    
         ### imports ###
@@ -197,5 +206,6 @@ def main():
     #locals()['tg_chat' + chat_id]
 
 
+#tg_chat_id = 1590508723 // chat_id legion
 if __name__ == "__main__":
     main()
