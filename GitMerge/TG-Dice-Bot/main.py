@@ -292,6 +292,10 @@ class TelegramBotAPI:
         if self.debug:
             print(f"{'=' * 30}\n{api_data}")
 
+        # for test getChatAdministrators
+        #request_result = req.get(self._tg_api_url+'/getChatAdministrators', headers=self._headers, params={'chat_id': -862538827})
+        #print(f"request_result: {request_result.json()}")
+
         # выйти из текущей интерации цикла (временно? return)
         if api_data['result'] is None:
             return
