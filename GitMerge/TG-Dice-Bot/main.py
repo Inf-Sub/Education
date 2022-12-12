@@ -2,7 +2,7 @@ class GameManager:
     '''
     In order for the bot to see Dice in the Telegram group in the @BotFather settings, 
     you need to change /setprivace to disabled.
-    
+
     This class is designed to manage chats and cubes in them.
     For each chat, we create a separate object, initialize the round, and add players 
     until the round is completed.
@@ -19,8 +19,13 @@ class GameManager:
         self.gamers = self._set_gamers()
         self.round = self._set_game_round() """
 
+
     def __init__(self, config: dict) -> None:
-        print(f"{'=' * 30}\nИниацилизация конструктора класса: GameManager\n")
+        self.debug = True
+
+        if self.debug:
+            print(f"{'=' * 30}\nИниацилизация конструктора класса: GameManager\n")
+        
         import time
 
         self._status = {}
@@ -38,28 +43,34 @@ class GameManager:
             if len(tg_data.data) == 0:
                 continue
             else:
-                print(f"{'=' * 30}\nLenght: {len(tg_data.data)}\n")
+                if self.debug:
+                    print(f"{'=' * 30}\nLenght: {len(tg_data.data)}\n")
 
             for new_msg in tg_data.data:
-                print(f"{'=' * 30}\nTelegram New Message:\n{new_msg}\n")
+                if self.debug:
+                    print(f"{'=' * 30}\nTelegram New Message:\n{new_msg}\n")
 
                 if new_msg.get('message'):
                     if new_msg['message'].get('text'):
-                        print(f"{'=' * 30}\n" \
-                            #f"Telegram New Message:\n{new_msg}\n" \
-                            #f"Type Telegram New Message: {type(new_msg)}\n" \
-                            #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
-                            f"Message Text: {new_msg['message']['text']}\n"
+                        if self.debug:
+                            print(f"{'=' * 30}\n" \
+                                #f"Telegram New Message:\n{new_msg}\n" \
+                                #f"Type Telegram New Message: {type(new_msg)}\n" \
+                                #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
+                                f"Message Text: {new_msg['message']['text']}\n"
                         )
                     elif new_msg['message'].get('dice'):
-                        print(f"{'=' * 30}\n" \
-                            #f"Telegram New Message:\n{new_msg}\n" \
-                            #f"Type Telegram New Message: {type(new_msg)}\n" \
-                            #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
-                            f"Dice Value: {new_msg['message']['dice']['value']}\n"
+                        if self.debug:
+                            print(f"{'=' * 30}\n" \
+                                #f"Telegram New Message:\n{new_msg}\n" \
+                                #f"Type Telegram New Message: {type(new_msg)}\n" \
+                                #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
+                                f"Dice Value: {new_msg['message']['dice']['value']}\n"
                         )
                 else:
-                    print(f"{'=' * 30}\n=== Continue===\n\n")
+                    if self.debug:
+                        print(f"{'=' * 30}\n=== Continue===\n\n")
+                    
                     continue
 
 
@@ -78,7 +89,11 @@ class GameManager:
                             'value': new_msg['message']['dice']['value']
                         }
                     else:
-                        print(f"{'=' * 30}\nYou already rolled the die, rolled: {self._status[tg_chat_id]['users'][tg_user_id]['value']}\n")
+                        if self.debug:
+                            print(f"{'=' * 30}\n" \
+                                "You already rolled the die, rolled: " \
+                                "{self._status[tg_chat_id]['users'][tg_user_id]['value']}\n"
+                                )
 
 
 
@@ -88,7 +103,8 @@ class GameManager:
 
 
                 
-            print(f"{'=' * 30}\nSTATUS: {self._status}\n")
+            if self.debug:
+                print(f"{'=' * 30}\nSTATUS: {self._status}\n")
 
         #tg_bot_dice.get_updates()
         
@@ -116,20 +132,24 @@ class ConfigReader:
     выдать ошибку / запрос на указание расположения .env) если свойств нет - вызываем методы 
     get_config() и get_env() иначе отдаем свойства
     '''
-    print(f"{'=' * 30}\nИниацилизация класса: ConfigReader\n")
+
     def __init__(self, config_files: tuple = ('.env', '.config')) -> None:
         '''
         The class constructor calls the _get_config_file() method to populate the class properties
         from the configuration files.
         '''
-        print(f"{'=' * 30}\nИниацилизация конструктора класса: ConfigReader\n")
+        self.debug = False
+        if self.debug:
+            print(f"{'=' * 30}\nИниацилизация конструктора класса: ConfigReader\n")
+        
         self.api = {}
 
         if config_files != ():
             for config_file in config_files:
                 self._get_config_file_path(config_file)
         else:
-            print(f"{'=' * 30}\nconfig_files is empty\n")
+            if self.debug:
+                print(f"{'=' * 30}\nconfig_files is empty\n")
             # add Error message
             return
 
@@ -153,7 +173,8 @@ class ConfigReader:
             self._get_config_file(config_file_path)
         else:
             # Вывести в виде ошибки!
-            print(f"{'=' * 30}\nFile: {config_file_path} is not found!\n")
+            if self.debug:
+                print(f"{'=' * 30}\nFile: {config_file_path} is not found!\n")
 
     def _get_config_file(self, config_file: str = '') -> None:
         """
@@ -173,7 +194,8 @@ class ConfigReader:
 
         # load config file
         load_dotenv(config_file)
-        print(f"{'=' * 30}\nLoad config file: {config_file}\n")
+        if self.debug:
+            print(f"{'=' * 30}\nLoad config file: {config_file}\n")
 
         # TODO: create a tuple or list, or dist of parameters and loop through them, checking and substituting
         #  an empty value if there is no parameter
@@ -189,7 +211,6 @@ class TelegramBotAPI:
     '''
     This class is for getting data from API
     '''
-    print(f"{'=' * 30}\nИниацилизация класса: TelegramBotAPI\n")
 
     def __init__(self, api_url: str, api_key: str) -> list:
         '''
@@ -197,7 +218,10 @@ class TelegramBotAPI:
         :param config: object with parameters for API
         :return:
         '''
-        print(f"{'=' * 30}\nИниацилизация конструктора класса: TelegramBotAPI\n")
+        self.debug = False
+
+        if self.debug:
+            print(f"{'=' * 30}\nИниацилизация конструктора класса: TelegramBotAPI\n")
         # import fake_useragent as fua
         # import math
 
@@ -206,10 +230,13 @@ class TelegramBotAPI:
         #    self._api_url = api_url
         #    self._api_key = api_key
         else:
-            print(f"{'=' * 30}\nError API data:\napi_url: {api_url}\napi_key: {api_key}\n")
+            if self.debug:
+                print(f"{'=' * 30}\nError API data:\napi_url: {api_url}\napi_key: {api_key}\n")
+
             return
 
-        print(f"{'=' * 30}\nПолучен URL API with API Key:\ntg_api_url: {self._tg_api_url}\n")
+        if self.debug:
+            print(f"{'=' * 30}\nПолучен URL API with API Key:\ntg_api_url: {self._tg_api_url}\n")
 
         self._headers = {
         #    'User-Agent': user_agent,
@@ -218,7 +245,8 @@ class TelegramBotAPI:
 
         self.data = self.get_updates()
         
-        print(f"{'=' * 30}\nTelegram API Data: {type(self.data)}\n{self.data}\n")
+        if self.debug:
+            print(f"{'=' * 30}\nTelegram API Data: {type(self.data)}\n{self.data}\n")
 
         #self._chat_id = self._data[0]['message']['chat']['id']
         #print(f"{'=' * 30}\nTelegram Chat ID: {self._chat_id}")
@@ -235,31 +263,37 @@ class TelegramBotAPI:
         
 
 
-    def get_updates(self, params: list = {}) -> list:    
+    def get_updates(self, params: list = {}) -> list:
         ### imports ###
         import requests as req
 
         request_result = req.get(self._tg_api_url+'/getUpdates', headers=self._headers, params=params)
 
         if request_result.status_code != 200:
-            print(f"Error: request status code == {request_result.status_code}\n")
+            if self.debug:
+                print(f"Error: request status code == {request_result.status_code}\n")
+
             return
         else:
-            print(
-                f"{'=' * 30}\n" \
-                f"Status code:   {request_result.status_code}\n" \
-                f"Encoding:      {request_result.encoding}\n" \
-                f"Headers:       {request_result.headers}\n" \
-            )
+            if self.debug:
+                print(
+                    f"{'=' * 30}\n" \
+                    f"Status code:   {request_result.status_code}\n" \
+                    f"Encoding:      {request_result.encoding}\n" \
+                    f"Headers:       {request_result.headers}\n" \
+                )
 
         api_data = request_result.json()
-        print(f"{'=' * 30}\n{api_data}")
+        if self.debug:
+            print(f"{'=' * 30}\n{api_data}")
 
         # выйти из текущей интерации цикла (временно? return)
         if api_data['result'] is None:
             return
         else:
-            print(f"{'=' * 30}\nResult Type: {type(api_data['result'])}\n")
+            if self.debug:
+                print(f"{'=' * 30}\nResult Type: {type(api_data['result'])}\n")
+            
             return api_data['result']
 
         # incorrectly
@@ -270,9 +304,14 @@ class TelegramBotAPI:
 
 
 def main():
-    print(f"{'=' * 30}\nСкрипт запущен как: {__name__}\n")
+    debug = False
+
+    if debug:
+        print(f"{'=' * 30}\nСкрипт запущен как: {__name__}\n")
+    
     current_config = ConfigReader()
-    print(f"{'=' * 30}\nПолучены данные из конфига:\nAPI: {current_config.api}\nType: {type(current_config.api)}")
+    if debug:
+        print(f"{'=' * 30}\nПолучены данные из конфига:\nAPI: {current_config.api}\nType: {type(current_config.api)}")
     
     GameManager(current_config.api)
     
