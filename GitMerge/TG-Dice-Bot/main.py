@@ -93,12 +93,19 @@ class GameManager:
                             'username': new_msg['message']['from']['username'],
                             'value': new_msg['message']['dice']['value']
                         }
-                    else:
+                    else:                        
                         if self.debug:
                             print(f"{'=' * 30}\n" \
-                                "You already rolled the die, rolled: " \
-                                "{self._status[tg_chat_id]['users'][tg_user_id]['value']}\n"
+                                f"You already rolled the die, rolled: " \
+                                f"{self._status[tg_chat_id]['users'][tg_user_id]['value']}\n"
                                 )
+                        
+                        tg_data.send_message({
+                            'chat_id': tg_chat_id, 
+                            'text': f"<b>You already rolled the die, rolled: " \
+                                    f"{self._status[tg_chat_id]['users'][tg_user_id]['value']}</b>",
+                            'parse_mode': 'html'
+                            })
 
 
 
@@ -245,7 +252,8 @@ class TelegramBotAPI:
 
         self._headers = {
         #    'User-Agent': user_agent,
-            'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
+            'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+            'ContentType': 'application/json; charset=utf-8'
         }
 
         self.data = self.get_updates()
@@ -276,13 +284,14 @@ class TelegramBotAPI:
 
         if request_result.status_code != 200:
             if self.debug:
-                print(f"Error: request status code == {request_result.status_code}\n")
+                print( f"{'=' * 30}\nError:\ngetUpdates: request status code == {request_result.status_code}\n")
 
             return
         else:
             if self.debug:
                 print(
                     f"{'=' * 30}\n" \
+                    f"getUpdates:\n" \
                     f"Status code:   {request_result.status_code}\n" \
                     f"Encoding:      {request_result.encoding}\n" \
                     f"Headers:       {request_result.headers}\n" \
@@ -290,7 +299,7 @@ class TelegramBotAPI:
 
         api_data = request_result.json()
         if self.debug:
-            print(f"{'=' * 30}\n{api_data}")
+            print(f"{'=' * 30}\ngetUpdates: API Data:\n{api_data}\n")
 
         # for test getChatAdministrators
         #request_result = req.get(self._tg_api_url+'/getChatAdministrators', headers=self._headers, params={'chat_id': -862538827})
@@ -301,7 +310,7 @@ class TelegramBotAPI:
             return
         else:
             if self.debug:
-                print(f"{'=' * 30}\nResult Type: {type(api_data['result'])}\n")
+                print(f"{'=' * 30}\ngetUpdates: Result Type: {type(api_data['result'])}\n")
             
             return api_data['result']
 
@@ -309,6 +318,36 @@ class TelegramBotAPI:
         #if self._chat_id is None:
         #    self._chat_id = api_data['result']['message']['chat']['id']
 
+    def send_message(self, data: list) -> None:
+        self.debug = True
+        ### imports ###
+        import requests as req
+
+        if not data.get('parse_mode'):
+            data['parse_mode'] = 'html'
+
+        request_result = req.post(self._tg_api_url+'/sendMessage', headers=self._headers, json=data)
+   
+
+        if self.debug:
+            print(
+                f"{'=' * 30}\n" \
+                f"sendMessage:\n" \
+                f"Status code:   {request_result.status_code}\n" \
+                f"Encoding:      {request_result.encoding}\n" \
+                f"Headers:       {request_result.headers}\n" \
+                f"Text:          {request_result.text}\n" \
+            )
+
+        if request_result.status_code != 200:
+            print(f"{'=' * 30}\n" \
+                f"\Error:\n"
+                f"sendMessage: request status code == {request_result.status_code}\n"
+                f"Text: {request_result.text}\n")
+            return
+
+
+        self.debug = False
 
 
 
