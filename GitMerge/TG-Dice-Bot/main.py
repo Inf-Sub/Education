@@ -42,7 +42,12 @@ class GameManager:
 
             if len(tg_data.data) == 0:
                 continue
-            else:
+            else:                
+                # Write log to File.
+                import json
+                with open('TG-MSG.log', 'a') as outfile:
+                    json.dump(tg_data.data, outfile, indent=5)
+
                 if self.debug:
                     print(f"{'=' * 30}\nLenght: {len(tg_data.data)}\n")
 
