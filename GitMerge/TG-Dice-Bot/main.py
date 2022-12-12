@@ -33,6 +33,7 @@ class GameManager:
         import time
 
         self._status = {}
+        self._botmsg = self._set_bot_messages()
 
         i = 0
         while i < 1:
@@ -60,40 +61,40 @@ class GameManager:
                     print(f"{'=' * 30}\nTelegram New Message:\n{new_msg}\n")
 
                 if new_msg.get('message'):
-                    if new_msg['message'].get('text'):
-                        if self.debug:
-                            print(f"{'=' * 30}\n" \
-                                #f"Telegram New Message:\n{new_msg}\n" \
-                                #f"Type Telegram New Message: {type(new_msg)}\n" \
-                                #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
-                                f"Message Text: {new_msg['message']['text']}\n"
-                        )
-                    elif new_msg['message'].get('dice'):
-                        if self.debug:
-                            print(f"{'=' * 30}\n" \
-                                #f"Telegram New Message:\n{new_msg}\n" \
-                                #f"Type Telegram New Message: {type(new_msg)}\n" \
-                                #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
-                                f"Dice Value: {new_msg['message']['dice']['value']}\n"
-                        )
+
+                    tg_chat_id = new_msg['message']['chat']['id']
+                    tg_user_id = new_msg['message']['from']['id']
+                    #tg_username = new_msg['message']['from']['username']
                 else:
                     if self.debug:
                         print(f"{'=' * 30}\n=== Continue===\n\n")
-                    
                     continue
 
 
                 
-                tg_chat_id = new_msg['message']['chat']['id']
-                tg_user_id = new_msg['message']['from']['id']
-                #tg_username = new_msg['message']['from']['username']
 
+
+                # Create Chat_ID list in status
                 if tg_chat_id not in self._status:
-                    self._status[tg_chat_id] = {'users': {}, 'round': 1}
+                    #self._status[tg_chat_id] = {'users': {}, 'round': 1}
+                    self._status[tg_chat_id] = [{'users': {}}]
+
+                # Game round number
+                round = len(self._status[tg_chat_id]) - 1
+                if self.debug:
+                    print(f"{'=' * 30}\nGame round number: {round}\n")
                 
                 if new_msg['message'].get('dice'):
-                    if tg_user_id not in self._status[tg_chat_id]['users']:
-                        self._status[tg_chat_id]['users'][tg_user_id] = {
+                    if self.debug:
+                        print(f"{'=' * 30}\n" \
+                            #f"Telegram New Message:\n{new_msg}\n" \
+                            #f"Type Telegram New Message: {type(new_msg)}\n" \
+                            #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
+                            f"Dice Value: {new_msg['message']['dice']['value']}\n"
+                        )
+
+                    if tg_user_id not in self._status[tg_chat_id][round]['users']:
+                        self._status[tg_chat_id][round]['users'][tg_user_id] = {
                             'username': new_msg['message']['from']['username'],
                             'value': new_msg['message']['dice']['value']
                         }
@@ -101,17 +102,37 @@ class GameManager:
                         if self.debug:
                             print(f"{'=' * 30}\n" \
                                 f"You already rolled the die, rolled: " \
-                                f"{self._status[tg_chat_id]['users'][tg_user_id]['value']}\n"
+                                f"{self._status[tg_chat_id][round]['users'][tg_user_id]['value']}\n"
                                 )
                         
                         tg_data.send_message({
                             'chat_id': tg_chat_id, 
                             'text': f"<b>You already rolled the die, rolled: " \
-                                    f"{self._status[tg_chat_id]['users'][tg_user_id]['value']}</b>",
+                                    f"{self._status[tg_chat_id][round]['users'][tg_user_id]['value']}</b>",
                             'parse_mode': 'html'
                             })
 
 
+                if new_msg['message'].get('text'):
+                    if self.debug:
+                        print(f"{'=' * 30}\n" \
+                            #f"Telegram New Message:\n{new_msg}\n" \
+                            #f"Type Telegram New Message: {type(new_msg)}\n" \
+                            #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
+                            f"Message Text: {new_msg['message']['text']}\n"
+                    )
+
+                    tg_msg_text = new_msg['message']['text']
+                    
+                    if self._botmsg.get(tg_msg_text):
+                        tg_data.send_message({
+                            'chat_id': tg_chat_id, 
+                            'text': f"{self._botmsg[tg_msg_text]}",
+                            'parse_mode': 'html'
+                            })
+
+
+                    
 
             else:
                 tg_data.get_updates({'offset': new_msg['update_id'] + 1})
@@ -127,6 +148,88 @@ class GameManager:
         #self._chat_id = self._data[0]['message']['chat']['id']
         #print(f"{'=' * 30}\nTelegram Chat ID: {self._chat_id}")
         
+    def _set_bot_messages(self) -> list:
+        msg_list = {}
+
+        msg_list['/info'] = f"<b><u>Dice Bot</u></b> version: 0.3.5 alpha\n" \
+                            f"\n" \
+                            f"<i>Shit Coding by @InfSub</i>\n" 
+
+        msg_list['/help'] = f"<b><u>Помощь по использованию бота:</u></b>\n" \
+                            f"\n" \
+                            f"<b><u>Бросок кубика</u></b>\n" \
+                            f"Что бы кинуть кубик, нажми на чужой и <b>Отправить</b>.\n" \
+                            f"Если чужих кубиков нет, ты можешь отправить эмодзи 🎲 и Телеграм сделает из этого бросок кубика.\n" \
+                            f"Чтобы поставить 🎲, напиши <b>:кубик</b> (<i><b>:dice</b> если язык Телеграма - английский</i>).\n" \
+                            f"На веб-версии Телеграма кубики не работают.\n" \
+                            f"\n" \
+                            f"<b><u>Ход игры</u></b>\n" \
+                            f"Первый раунд - кто угодно может кинуть кубик.\n" \
+                            f"Начать игру и завершить раунд может только админ или сам бот.\n" \
+                            f"В конце каждого раунда те игроки, у которых наибольшее количество очков, попадают в следующий раунд.\n" \
+                            f"Во втором и последующих раундах могут участвовать только победители предыдущего раунда.\n" \
+                            f"С 1:00 МСК по 7:00 МСК бот спит и не реагирует на команды и кубики.\n" \
+                            f"\n" \
+                            f"<b><u>Команды</u></b>\n" \
+                            #f"Тебе доступны три команды:\n" \
+                            f"/info - Информация о боте.\n" \
+                            f"/help - Отправляет это обучение, ты её уже, видимо, знаешь.\n" \
+                            f"/stats - Отправляет список игроков раунда, там можно посмотреть кто участвует и кто сколько выкинул.\n" \
+                            f"\n" \
+                            f"<b><u>Команды для админов</u></b>\n" \
+                            #f"Эти команды могут выполнять только админы, прости уж.\n" \
+                            f"/begin - Начинает игру. Бот не даст запустить новую игру если старая ещё не закончена.\n" \
+                            f"/next - Начинает следующий раунд если победителей текущего несколько или заканчивает игру " \
+                            f"если победитель только один.\n" \
+                            #f"/next -f - Принудительно закончить раунд (без подтверждения).\n" \
+                            #f"/revoke - Отправь в ответ на кубик игрока что бы обнулить его счёт в текущем раунде.\n" \
+                            f"\n" \
+                            f"\n" \
+                            f"И самое главное: не забывайте кидать репу Жанне. 😉"
+        
+        msg_list['/stats'] = f"<b><u>Dice Bot</u></b> version: 0.3.5 alpha\n" \
+                            f"\n" \
+                            f"<i>Shit Coding by @InfSub</i>\n" 
+        
+        msg_list['/begin'] = f"<b>❗️ Кидаем кубик 🎲</b>\n" \
+                             f"<b>Победителю приз 🎉</b>\n" \
+                            f"\n" \
+                            f"Чтобы кинуть кубик, нажмите на него и затем на кнопку \"<b>Отправить</b>\".\n" 
+        
+        msg_list['/next'] = f"<b>Ты уверен(а), что хочешь закончить первый раунд?</b>\n" \
+                            f"\n" \
+                            f"/confirm - Да, уверен(а).\n" \
+                            f"/cancel - Нет, отмена.\n" 
+
+                            
+        msg_list['next_round'] = f"<b>🎉 Победители 🎉 %s раунда со счётом %s:</b>\n" \
+                            f"%s\n" \
+                            f"\n" \
+                            f"<b>❗️ Начинается раунд %s ❗️</b>\n" \
+                            f"Кидайте кубики, товарищи победители!\n"
+
+        msg_list['next_round_quote'] = f"<i>Жизнь измеряется не количеством наших вдохов, а количеством моментов, " \
+                            f"от которых перехватывает дыхание.</i>\n" \
+                            f"<i>— Майя Энджелоу</i>"
+
+        msg_list['not_run'] = f"<b>Игра не запущена в данный момент</b>\n" 
+
+        msg_list['/reload'] = f"<b>I'll be back...</b>\n"
+        
+        msg_list['/restart'] = f"<b>I'll be back...</b>\n"
+        
+        msg_list['/exit'] = f"<b>You killed me!!!</b>\n"
+
+
+
+        return msg_list
+                    
+
+    def _get_command(self, msg):
+        pass
+
+    def _get_dice(self, msg):
+        pass
 
     def _set_gamers(self, user_id: int) -> None:
         pass
