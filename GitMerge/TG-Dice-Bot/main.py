@@ -6,7 +6,7 @@ class GameManager:
     If there are several winners, then we announce the next round, in which only the 
     winners of the previous round play. Until only one remains.
     '''
-    def __init__(self, chat_id: int) -> None:
+    """ def __init__(self, chat_id: int) -> None:
         if not chat_id is None:
             self.chat_id = chat_id
         else:
@@ -14,13 +14,82 @@ class GameManager:
             return
         
         self.gamers = self._set_gamers()
-        self.round = self._set_game_round()
+        self.round = self._set_game_round() """
+
+    def __init__(self, config: dict) -> None:
+        import time
+
+        self._status = {}
+
+        i = 0
+        while i < 1:
+            i += 1
+            tg_data = TelegramBotAPI(
+                config['api_url'],
+                config['api_key']
+            )
+
+            time.sleep(1)
+
+            if len(tg_data.data) == 0:
+                continue
+            else:
+                print(f"{'=' * 30}\nLenght: {len(tg_data.data)}\n")
+
+            for new_msg in tg_data.data:
+                if new_msg['message'].get('text'):
+                    print(f"{'=' * 30}\n" \
+                        #f"Telegram New Message: {new_msg}\n" \
+                        #f"Type Telegram New Message: {type(new_msg)}\n" \
+                        #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
+                        f"Message Text: {new_msg['message']['text']}\n"
+                    )
+                elif new_msg['message'].get('dice'):
+                    print(f"{'=' * 30}\n" \
+                        #f"Telegram New Message: {new_msg}\n" \
+                        #f"Type Telegram New Message: {type(new_msg)}\n" \
+                        #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
+                        f"Dice Value: {new_msg['message']['dice']['value']}\n"
+                    )
+
+                
+                tg_chat_id = new_msg['message']['chat']['id']
+                tg_user_id = new_msg['message']['from']['id']
+                #tg_username = new_msg['message']['from']['username']
+
+                if tg_chat_id not in self._status:
+                    self._status[tg_chat_id] = {'users': {}, 'round': 1}
+                
+                if new_msg['message'].get('dice'):
+                    if tg_user_id not in self._status[tg_chat_id]['users']:
+                        self._status[tg_chat_id]['users'][tg_user_id] = {
+                            'username': new_msg['message']['from']['username'],
+                            'value': new_msg['message']['dice']['value']
+                        }
+                    else:
+                        print(f"{'=' * 30}\nYou already rolled the die, rolled: {self._status[tg_chat_id]['users'][tg_user_id]['value']}\n")
+
+
+
+            else:
+                tg_data.get_updates({'offset': new_msg['update_id'] + 1})
+
+
+
+                
+            print(f"{'=' * 30}\nSTATUS: {self._status}\n")
+
+        #tg_bot_dice.get_updates()
+        
+        #self._chat_id = self._data[0]['message']['chat']['id']
+        #print(f"{'=' * 30}\nTelegram Chat ID: {self._chat_id}")
+        
 
     def _set_gamers(self, user_id: int) -> None:
         pass
 
     def _set_game_round(self, game_round_number: int = 1) -> int:
-        return ++game_round_number
+        return game_round_number + 1
 
     def _get_chat_id(self) -> int:
         pass
@@ -36,20 +105,20 @@ class ConfigReader:
     выдать ошибку / запрос на указание расположения .env) если свойств нет - вызываем методы 
     get_config() и get_env() иначе отдаем свойства
     '''
-    print(f"{'=' * 30}\nИниацилизация класса: ConfigReader")
+    print(f"{'=' * 30}\nИниацилизация класса: ConfigReader\n")
     def __init__(self, config_files: tuple = ('.env', '.config')) -> None:
         '''
         The class constructor calls the _get_config_file() method to populate the class properties
         from the configuration files.
         '''
-        print(f"{'=' * 30}\nИниацилизация конструктора класса: ConfigReader")
+        print(f"{'=' * 30}\nИниацилизация конструктора класса: ConfigReader\n")
         self.api = {}
 
         if config_files != ():
             for config_file in config_files:
                 self._get_config_file_path(config_file)
         else:
-            print('config_files is empty')
+            print(f"{'=' * 30}\nconfig_files is empty\n")
             # add Error message
             return
 
@@ -73,7 +142,7 @@ class ConfigReader:
             self._get_config_file(config_file_path)
         else:
             # Вывести в виде ошибки!
-            print(f"File: {config_file_path} is not found!")
+            print(f"{'=' * 30}\nFile: {config_file_path} is not found!\n")
 
     def _get_config_file(self, config_file: str = '') -> None:
         """
@@ -93,7 +162,7 @@ class ConfigReader:
 
         # load config file
         load_dotenv(config_file)
-        print(f"{'=' * 30}\nLoad config file: {config_file}")
+        print(f"{'=' * 30}\nLoad config file: {config_file}\n")
 
         # TODO: create a tuple or list, or dist of parameters and loop through them, checking and substituting
         #  an empty value if there is no parameter
@@ -102,8 +171,6 @@ class ConfigReader:
             self.api['api_key'] = os.getenv('api_key')
         if os.getenv('api_url') is not None:
             self.api['api_url'] = os.getenv('api_url')
-        if os.getenv('tg_chat_id') is not None:
-            self.api['tg_chat_id'] = os.getenv('tg_chat_id')
 
 
 
@@ -111,15 +178,15 @@ class TelegramBotAPI:
     '''
     This class is for getting data from API
     '''
-    print(f"{'=' * 30}\nИниацилизация класса: TelegramBotAPI")
+    print(f"{'=' * 30}\nИниацилизация класса: TelegramBotAPI\n")
 
-    def __init__(self, api_url: str, api_key: str) -> None:
+    def __init__(self, api_url: str, api_key: str) -> list:
         '''
         Запросить данные из API
         :param config: object with parameters for API
         :return:
         '''
-        print(f"{'=' * 30}\nИниацилизация конструктора класса: TelegramBotAPI")
+        print(f"{'=' * 30}\nИниацилизация конструктора класса: TelegramBotAPI\n")
         # import fake_useragent as fua
         # import math
 
@@ -128,20 +195,22 @@ class TelegramBotAPI:
         #    self._api_url = api_url
         #    self._api_key = api_key
         else:
-            print(f"{'=' * 30}\nError API data:\napi_url: {api_url}\napi_key: {api_key}")
+            print(f"{'=' * 30}\nError API data:\napi_url: {api_url}\napi_key: {api_key}\n")
             return
 
-        print(f"{'=' * 30}\nПолучен URL API with API Key:\ntg_api_url: {self._tg_api_url}")
+        print(f"{'=' * 30}\nПолучен URL API with API Key:\ntg_api_url: {self._tg_api_url}\n")
 
         self._headers = {
         #    'User-Agent': user_agent,
             'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'
         }
 
-        self._data = self.get_updates()
-        self._chat_id = self._data[0]['message']['chat']['id']
-        print(f"{'=' * 30}\nTelegram Chat ID: {self._chat_id}")
-        #print(f"{'=' * 30}\nself._data: {type(self._data)}\n{self._data}")
+        self.data = self.get_updates()
+        
+        print(f"{'=' * 30}\nTelegram API Data: {type(self.data)}\n{self.data}\n")
+
+        #self._chat_id = self._data[0]['message']['chat']['id']
+        #print(f"{'=' * 30}\nTelegram Chat ID: {self._chat_id}")
 
 
 
@@ -155,15 +224,14 @@ class TelegramBotAPI:
         
 
 
-    def get_updates(self) -> list:    
+    def get_updates(self, params: list = {}) -> list:    
         ### imports ###
         import requests as req
 
-        request_result = req.get(self._tg_api_url + '/getUpdates', headers=self._headers #, params=api_requests[key_req]['params']
-        )
+        request_result = req.get(self._tg_api_url+'/getUpdates', headers=self._headers, params=params)
 
         if request_result.status_code != 200:
-            print(f"Error: request status code == {request_result.status_code}")
+            print(f"Error: request status code == {request_result.status_code}\n")
             return
         else:
             print(
@@ -180,7 +248,7 @@ class TelegramBotAPI:
         if api_data['result'] is None:
             return
         else:
-            print(f"{'=' * 30}\nResult Type: {type(api_data['result'])}")
+            print(f"{'=' * 30}\nResult Type: {type(api_data['result'])}\n")
             return api_data['result']
 
         # incorrectly
@@ -191,15 +259,12 @@ class TelegramBotAPI:
 
 
 def main():
-    print(f"{'=' * 30}\nСкрипт запущен как: {__name__}")
+    print(f"{'=' * 30}\nСкрипт запущен как: {__name__}\n")
     current_config = ConfigReader()
-    print(f"{'=' * 30}\nПолучены данные из конфига:\nAPI: {current_config.api}")
-    tg_bot_dice = TelegramBotAPI(
-        current_config.api['api_url'],
-        current_config.api['api_key']
-    )
-
-    tg_bot_dice.get_updates()
+    print(f"{'=' * 30}\nПолучены данные из конфига:\nAPI: {current_config.api}\nType: {type(current_config.api)}")
+    
+    GameManager(current_config.api)
+    
 
 
     #chat_id = tg_bot_dice.get_updates()
