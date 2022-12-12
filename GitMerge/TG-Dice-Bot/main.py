@@ -1,5 +1,8 @@
 class GameManager:
     '''
+    In order for the bot to see Dice in the Telegram group in the @BotFather settings, 
+    you need to change /setprivace to disabled.
+    
     This class is designed to manage chats and cubes in them.
     For each chat, we create a separate object, initialize the round, and add players 
     until the round is completed.
@@ -17,6 +20,7 @@ class GameManager:
         self.round = self._set_game_round() """
 
     def __init__(self, config: dict) -> None:
+        print(f"{'=' * 30}\nИниацилизация конструктора класса: GameManager\n")
         import time
 
         self._status = {}
@@ -37,20 +41,27 @@ class GameManager:
                 print(f"{'=' * 30}\nLenght: {len(tg_data.data)}\n")
 
             for new_msg in tg_data.data:
-                if new_msg['message'].get('text'):
-                    print(f"{'=' * 30}\n" \
-                        #f"Telegram New Message: {new_msg}\n" \
-                        #f"Type Telegram New Message: {type(new_msg)}\n" \
-                        #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
-                        f"Message Text: {new_msg['message']['text']}\n"
-                    )
-                elif new_msg['message'].get('dice'):
-                    print(f"{'=' * 30}\n" \
-                        #f"Telegram New Message: {new_msg}\n" \
-                        #f"Type Telegram New Message: {type(new_msg)}\n" \
-                        #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
-                        f"Dice Value: {new_msg['message']['dice']['value']}\n"
-                    )
+                print(f"{'=' * 30}\nTelegram New Message:\n{new_msg}\n")
+
+                if new_msg.get('message'):
+                    if new_msg['message'].get('text'):
+                        print(f"{'=' * 30}\n" \
+                            #f"Telegram New Message:\n{new_msg}\n" \
+                            #f"Type Telegram New Message: {type(new_msg)}\n" \
+                            #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
+                            f"Message Text: {new_msg['message']['text']}\n"
+                        )
+                    elif new_msg['message'].get('dice'):
+                        print(f"{'=' * 30}\n" \
+                            #f"Telegram New Message:\n{new_msg}\n" \
+                            #f"Type Telegram New Message: {type(new_msg)}\n" \
+                            #f"Update ID: {new_msg['update_id']} Type: {type(new_msg['update_id'])}\n"
+                            f"Dice Value: {new_msg['message']['dice']['value']}\n"
+                        )
+                else:
+                    print(f"{'=' * 30}\n=== Continue===\n\n")
+                    continue
+
 
                 
                 tg_chat_id = new_msg['message']['chat']['id']
