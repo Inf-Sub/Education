@@ -8,7 +8,11 @@ class GameManager:
     until the round is completed.
     If there are several winners, then we announce the next round, in which only the 
     winners of the previous round play. Until only one remains.
+
+    Найти максимальное значение в словаре:
+    https://ru.stackoverflow.com/questions/759476/%D0%BD%D0%B0%D0%B9%D1%82%D0%B8-%D0%BC%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D1%81%D0%BB%D0%BE%D0%B2%D0%B0%D1%80%D1%8F-python
     '''
+
     """ def __init__(self, chat_id: int) -> None:
         if not chat_id is None:
             self.chat_id = chat_id
