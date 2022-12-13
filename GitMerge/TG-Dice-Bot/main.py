@@ -34,9 +34,13 @@ class GameManager:
 
         self._status = {}
         self._botmsg = self._set_bot_messages()
+        
+        self._botnick = '@' + TelegramBotAPI(config['api_url'], config['api_key']).get_me()
+        if self.debug:
+                    print(f"{'=' * 30}\nTelegram Bot NickName:\n{self._botnick}\n")
 
         i = 0
-        while i < 1:
+        while i < 100:
             i += 1
             tg_data = TelegramBotAPI(
                 config['api_url'],
@@ -64,6 +68,7 @@ class GameManager:
 
                     tg_chat_id = new_msg['message']['chat']['id']
                     tg_user_id = new_msg['message']['from']['id']
+                    tg_msg_id = new_msg['message']['message_id']
                     #tg_username = new_msg['message']['from']['username']
                 else:
                     if self.debug:
@@ -101,14 +106,15 @@ class GameManager:
                     else:                        
                         if self.debug:
                             print(f"{'=' * 30}\n" \
-                                f"You already rolled the die, rolled: " \
-                                f"{self._status[tg_chat_id][round]['users'][tg_user_id]['value']}\n"
+                                f"{self._botmsg['you_have_already_rolled']}" % \
+                                (self._status[tg_chat_id][round]['users'][tg_user_id]['value'])
                                 )
                         
                         tg_data.send_message({
                             'chat_id': tg_chat_id, 
-                            'text': f"<b>You already rolled the die, rolled: " \
-                                    f"{self._status[tg_chat_id][round]['users'][tg_user_id]['value']}</b>",
+                            'reply_to_message_id': tg_msg_id,
+                            'text': f"{self._botmsg['you_have_already_rolled']}" %  
+                                (self._status[tg_chat_id][round]['users'][tg_user_id]['value']),
                             'parse_mode': 'html'
                             })
 
@@ -122,13 +128,16 @@ class GameManager:
                             f"Message Text: {new_msg['message']['text']}\n"
                     )
 
-                    tg_msg_text = new_msg['message']['text']
+                    # delete bot name from text
+                    tg_msg_text = new_msg['message']['text'].replace(self._botnick, '')    
                     
+                    # send message
                     if self._botmsg.get(tg_msg_text):
                         tg_data.send_message({
                             'chat_id': tg_chat_id, 
+                            'reply_to_message_id': tg_msg_id,
                             'text': f"{self._botmsg[tg_msg_text]}",
-                            'parse_mode': 'html'
+                            'parse_mode': 'html',
                             })
 
 
@@ -151,7 +160,7 @@ class GameManager:
     def _set_bot_messages(self) -> list:
         msg_list = {}
 
-        msg_list['/info'] = f"<b><u>Dice Bot</u></b> version: 0.3.5 alpha\n" \
+        msg_list['/info'] = f"<b><u>Dice Bot</u></b> version: 0.3.6 alpha\n" \
                             f"\n" \
                             f"<i>Shit Coding by @InfSub</i>\n" 
 
@@ -187,9 +196,9 @@ class GameManager:
                             f"\n" \
                             f"И самое главное: не забывайте кидать репу Жанне. 😉"
         
-        msg_list['/stats'] = f"<b><u>Dice Bot</u></b> version: 0.3.5 alpha\n" \
+        msg_list['/stats'] = f"<b><u>🟢 Игра запущена, раунд %s\n" \
                             f"\n" \
-                            f"<i>Shit Coding by @InfSub</i>\n" 
+                            f"%s\n" 
         
         msg_list['/begin'] = f"<b>❗️ Кидаем кубик 🎲</b>\n" \
                              f"<b>Победителю приз 🎉</b>\n" \
@@ -213,6 +222,10 @@ class GameManager:
                             f"<i>— Майя Энджелоу</i>"
 
         msg_list['not_run'] = f"<b>Игра не запущена в данный момент</b>\n" 
+
+        msg_list['you_are_not_in_this_round'] = f"<b>Ты не участвуешь в этом раунде. Подожди до начала следующей игры.</b>\n" 
+
+        msg_list['you_have_already_rolled'] = f"<b>Ты уже кидал кубик в этом раунде и выпало %s.</b>\n" 
 
         msg_list['/reload'] = f"<b>I'll be back...</b>\n"
         
@@ -382,27 +395,69 @@ class TelegramBotAPI:
         #    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
         
 
+    def get_me(self) -> str:
+        ### imports ###
+        import requests as req
+
+        request_result = req.get(self._tg_api_url+'/getMe', headers=self._headers)
+
+        if self.debug:
+            print(
+                f"{'=' * 30}\n" \
+                f"getMe:\n" \
+                f"Status code:   {request_result.status_code}\n" \
+                f"Encoding:      {request_result.encoding}\n" \
+                f"Headers:       {request_result.headers}\n" \
+                f"Text:          {request_result.text}\n" \
+            )
+
+        if request_result.status_code != 200:
+            print(f"{'=' * 30}\n" \
+                f"\Error:\n"
+                f"getMe: request status code == {request_result.status_code}\n"
+                f"Text: {request_result.text}\n")
+            return
+
+        api_data = request_result.json()
+        if self.debug:
+            print(f"{'=' * 30}\ngetUpdates: API Data:\n{api_data}\n")
+
+        # for test getChatAdministrators
+        #request_result = req.get(self._tg_api_url+'/getChatAdministrators', headers=self._headers, params={'chat_id': -862538827})
+        #print(f"request_result: {request_result.json()}")
+
+        # выйти из текущей интерации цикла (временно? return)
+        if api_data['result'] is None:
+            return
+        else:
+            if self.debug:
+                print(f"{'=' * 30}\ngetUpdates: Result Type: {type(api_data['result'])}\n")
+            
+            return api_data['result']['username']
+
 
     def get_updates(self, params: list = {}) -> list:
         ### imports ###
         import requests as req
 
         request_result = req.get(self._tg_api_url+'/getUpdates', headers=self._headers, params=params)
+  
+        if self.debug:
+            print(
+                f"{'=' * 30}\n" \
+                f"getUpdates:\n" \
+                f"Status code:   {request_result.status_code}\n" \
+                f"Encoding:      {request_result.encoding}\n" \
+                f"Headers:       {request_result.headers}\n" \
+                f"Text:          {request_result.text}\n" \
+            )
 
         if request_result.status_code != 200:
-            if self.debug:
-                print( f"{'=' * 30}\nError:\ngetUpdates: request status code == {request_result.status_code}\n")
-
+            print(f"{'=' * 30}\n" \
+                f"\Error:\n"
+                f"getUpdates: request status code == {request_result.status_code}\n"
+                f"Text: {request_result.text}\n")
             return
-        else:
-            if self.debug:
-                print(
-                    f"{'=' * 30}\n" \
-                    f"getUpdates:\n" \
-                    f"Status code:   {request_result.status_code}\n" \
-                    f"Encoding:      {request_result.encoding}\n" \
-                    f"Headers:       {request_result.headers}\n" \
-                )
 
         api_data = request_result.json()
         if self.debug:
