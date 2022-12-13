@@ -80,15 +80,12 @@ class GameManager:
 
 
                 # Game round number
-                if tg_chat_id in self._status:
+                if tg_chat_id not in self._status:
                     #self._status[tg_chat_id] = {'users': {}, 'round': 1}
-                    #self._status[tg_chat_id] = []
-                    round = len(self._status[tg_chat_id])
-                else:
-                    round = 0
+                    self._status[tg_chat_id] = []
 
                 # Game round number
-                #round = len(self._status[tg_chat_id])
+                round = len(self._status[tg_chat_id])
                 round_id = round - 1
 
                 if self.debug:
@@ -154,15 +151,36 @@ class GameManager:
                             'parse_mode': 'html',
                             })
 
-                    if tg_msg_text == '/begin':
+                    # TODO: added check admin rights
+                    if not round and tg_msg_text == '/begin':
                         # Create Chat_ID list in status
-                        if tg_chat_id not in self._status:
+                        #if tg_chat_id not in self._status:
                             #self._status[tg_chat_id] = {'users': {}, 'round': 1}
-                            self._status[tg_chat_id] = [{}]
+                        self._status[tg_chat_id] = [{}]
 
-                    if tg_msg_text == '/next':
-                        #self._status[tg_chat_id] = [{}]
-                        pass
+                    if round > 0 and (tg_msg_text == '/next_force' or '/confirm'):
+                        if self.debug:
+                            print(f"{'=' * 30}\n" \
+                                f"{tg_msg_text}:\n" \
+                                f"round: {round}\n" \
+                                f"round_id: {round_id}\n" \
+                                f"tg_chat_id: {tg_chat_id}\n" \
+                                f"Status: {self._status}\n" \
+                                f"Lenght: {len(self._status[tg_chat_id][round_id])}\n" \
+                            )
+
+                        # if the number of players participating in the round is more than one
+                        if len(self._status[tg_chat_id][round_id]) > 1:
+                            self._status[tg_chat_id].append({})
+                        else:
+                            tg_data.send_message({
+                            'chat_id': tg_chat_id, 
+                            'reply_to_message_id': tg_msg_id,
+                            'text': self._botmsg['must_be_more_one'],
+                            'parse_mode': 'html',
+                            })
+
+                        
 
 
 
@@ -185,7 +203,7 @@ class GameManager:
     def _set_bot_messages(self) -> list:
         msg_list = {}
 
-        msg_list['/info'] = f"<b><u>Dice Bot</u></b> version: 0.3.6 alpha\n" \
+        msg_list['/info'] = f"<b><u>Dice Bot</u></b> version: 0.3.9 alpha\n" \
                             f"\n" \
                             f"<i>Shit Coding by @InfSub</i>\n" 
 
@@ -230,10 +248,11 @@ class GameManager:
                             f"\n" \
                             f"Чтобы кинуть кубик, нажмите на него и затем на кнопку \"<b>Отправить</b>\".\n" 
         
+        # а нужен ли тут /cancel ?
         msg_list['/next'] = f"<b>Ты уверен(а), что хочешь закончить первый раунд?</b>\n" \
                             f"\n" \
                             f"/confirm - Да, уверен(а).\n" \
-                            f"/cancel - Нет, отмена.\n" 
+                            #f"/cancel - Нет, отмена.\n" 
 
                             
         msg_list['next_round'] = f"<b>🎉 Победители 🎉 %s раунда со счётом %s:</b>\n" \
@@ -251,6 +270,8 @@ class GameManager:
         msg_list['you_are_not_in_this_round'] = f"<b>Ты не участвуешь в этом раунде. Подожди до начала следующей игры.</b>\n" 
 
         msg_list['you_have_already_rolled'] = f"<b>Ты уже кидал кубик в этом раунде и выпало %s.</b>\n" 
+
+        msg_list['must_be_more_one'] = f"<b>Количество участников должно быть больше одного.</b>\n" 
 
         msg_list['/reload'] = f"<b>I'll be back...</b>\n"
         
