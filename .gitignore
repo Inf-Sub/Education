@@ -1,8 +1,8 @@
 .env
+.venv
 *.txt
 test.*
 *.log
-.vscode
 */obj/*
 */bin/*
 
