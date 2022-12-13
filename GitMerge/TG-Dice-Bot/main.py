@@ -159,7 +159,8 @@ class GameManager:
                             #self._status[tg_chat_id] = {'users': {}, 'round': 1}
                         self._status[tg_chat_id] = [{}]
 
-                    if round > 0 and (tg_msg_text == '/next_force' or '/confirm'):
+                    allow_message = ['/next_force', '/confirm']                    
+                    if round > 0 and tg_msg_text in allow_message:
                         if self.debug:
                             print(f"{'=' * 30}\n" \
                                 f"{tg_msg_text}:\n" \
@@ -204,7 +205,7 @@ class GameManager:
     def _set_bot_messages(self) -> list:
         msg_list = {}
 
-        msg_list['/info'] = f"<b><u>Dice Bot</u></b> version: 0.3.9 alpha\n" \
+        msg_list['/info'] = f"<b><u>Dice Bot</u></b> version: 0.3.10 alpha\n" \
                             f"\n" \
                             f"<i>Shit Coding by @InfSub</i>\n" 
 
