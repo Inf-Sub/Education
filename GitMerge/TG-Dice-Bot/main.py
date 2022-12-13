@@ -151,7 +151,7 @@ class GameManager:
                             'parse_mode': 'html',
                             })
 
-                    # TODO: added check admin rights
+                    # TODO: added check admin rights!!!
                     if not round and tg_msg_text == '/begin':
                         # Create Chat_ID list in status
                         #if tg_chat_id not in self._status:
