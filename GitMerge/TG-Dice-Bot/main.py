@@ -39,9 +39,10 @@ class GameManager:
         if self.debug:
                     print(f"{'=' * 30}\nTelegram Bot NickName:\n{self._botnick}\n")
 
-        i = 0
-        while i < 100:
-            i += 1
+        #i = 0
+        #while i < 100:
+        while True:
+            #i += 1
             tg_data = TelegramBotAPI(
                 config['api_url'],
                 config['api_key']
