@@ -79,13 +79,18 @@ class GameManager:
                 
 
 
-                # Create Chat_ID list in status
-                if tg_chat_id not in self._status:
+                # Game round number
+                if tg_chat_id in self._status:
                     #self._status[tg_chat_id] = {'users': {}, 'round': 1}
-                    self._status[tg_chat_id] = [{'users': {}}]
+                    #self._status[tg_chat_id] = []
+                    round = len(self._status[tg_chat_id])
+                else:
+                    round = 0
 
                 # Game round number
-                round = len(self._status[tg_chat_id]) - 1
+                #round = len(self._status[tg_chat_id])
+                round_id = round - 1
+
                 if self.debug:
                     print(f"{'=' * 30}\nGame round number: {round}\n")
                 
@@ -98,25 +103,34 @@ class GameManager:
                             f"Dice Value: {new_msg['message']['dice']['value']}\n"
                         )
 
-                    if tg_user_id not in self._status[tg_chat_id][round]['users']:
-                        self._status[tg_chat_id][round]['users'][tg_user_id] = {
-                            'username': new_msg['message']['from']['username'],
-                            'value': new_msg['message']['dice']['value']
-                        }
-                    else:                        
-                        if self.debug:
-                            print(f"{'=' * 30}\n" \
-                                f"{self._botmsg['you_have_already_rolled']}" % \
-                                (self._status[tg_chat_id][round]['users'][tg_user_id]['value'])
-                                )
-                        
+                    # if game not run
+                    if round == 0:
                         tg_data.send_message({
                             'chat_id': tg_chat_id, 
                             'reply_to_message_id': tg_msg_id,
-                            'text': f"{self._botmsg['you_have_already_rolled']}" %  
-                                (self._status[tg_chat_id][round]['users'][tg_user_id]['value']),
+                            'text': self._botmsg['game_not_run'],
                             'parse_mode': 'html'
                             })
+                    else:
+                        if tg_user_id not in self._status[tg_chat_id][round_id]:
+                            self._status[tg_chat_id][round_id][tg_user_id] = {
+                                'username': new_msg['message']['from']['username'],
+                                'value': new_msg['message']['dice']['value']
+                            }
+                        else:                        
+                            if self.debug:
+                                print(f"{'=' * 30}\n" \
+                                    f"{self._botmsg['you_have_already_rolled']}" % \
+                                    (self._status[tg_chat_id][round_id][tg_user_id]['value'])
+                                    )
+                            
+                            tg_data.send_message({
+                                'chat_id': tg_chat_id, 
+                                'reply_to_message_id': tg_msg_id,
+                                'text': self._botmsg['you_have_already_rolled'] %  
+                                    (self._status[tg_chat_id][round_id][tg_user_id]['value']),
+                                'parse_mode': 'html'
+                                })
 
 
                 if new_msg['message'].get('text'):
@@ -136,9 +150,20 @@ class GameManager:
                         tg_data.send_message({
                             'chat_id': tg_chat_id, 
                             'reply_to_message_id': tg_msg_id,
-                            'text': f"{self._botmsg[tg_msg_text]}",
+                            'text': self._botmsg[tg_msg_text],
                             'parse_mode': 'html',
                             })
+
+                    if tg_msg_text == '/begin':
+                        # Create Chat_ID list in status
+                        if tg_chat_id not in self._status:
+                            #self._status[tg_chat_id] = {'users': {}, 'round': 1}
+                            self._status[tg_chat_id] = [{}]
+
+                    if tg_msg_text == '/next':
+                        #self._status[tg_chat_id] = [{}]
+                        pass
+
 
 
                     
@@ -201,7 +226,7 @@ class GameManager:
                             f"%s\n" 
         
         msg_list['/begin'] = f"<b>❗️ Кидаем кубик 🎲</b>\n" \
-                             f"<b>Победителю приз 🎉</b>\n" \
+                             f"<b>❗️ Победителю приз 🎉</b>\n" \
                             f"\n" \
                             f"Чтобы кинуть кубик, нажмите на него и затем на кнопку \"<b>Отправить</b>\".\n" 
         
@@ -221,7 +246,7 @@ class GameManager:
                             f"от которых перехватывает дыхание.</i>\n" \
                             f"<i>— Майя Энджелоу</i>"
 
-        msg_list['not_run'] = f"<b>Игра не запущена в данный момент</b>\n" 
+        msg_list['game_not_run'] = f"<b>Игра не запущена в данный момент</b>\n" 
 
         msg_list['you_are_not_in_this_round'] = f"<b>Ты не участвуешь в этом раунде. Подожди до начала следующей игры.</b>\n" 
 
