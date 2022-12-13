@@ -1,7 +1,7 @@
 .env
 *.txt
-.vscode/
 test.*
 *.log
-C-Sharp/obj/*
-C-Sharp/bin/*
+.vscode
+*/obj/*
+*/bin/*
