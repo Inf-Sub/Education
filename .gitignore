@@ -1,2 +1,5 @@
 .env
 *.txt
+.vscode/
+test.*
+*.log
