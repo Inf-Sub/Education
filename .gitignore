@@ -3,5 +3,5 @@
 .vscode/
 test.*
 *.log
-C#/obj/*
-C#/bin/*
+C-Sharp/obj/*
+C-Sharp/bin/*
