@@ -47,11 +47,20 @@ class GameManager:
                 config['api_key']
             )
 
+            # Если API вернула ошибку и в функции у нас просто return ( так как нет обработки ошибок api)
+            # для примера - если бот уже запущен и запускаем второй экземпляр бота
+            if tg_data.data is None:
+                print(f"{'=' * 30}\n" \
+                    f"Error:\n" \
+                    f"TelegramBotAPI Type == {type(tg_data.data)}\n"
+                    )
+                return
+
             time.sleep(1)
 
-            if self.debug:
-                print(f"{'=' * 30}\nTelegramBotAPI Type: {type(tg_data.data)}\n")
-                print(f"{'=' * 30}\nTelegramBotAPI: {tg_data.data}\n")
+            #if self.debug:
+            #    print(f"{'=' * 30}\nTelegramBotAPI Type: {type(tg_data.data)}\n")
+            #    print(f"{'=' * 30}\nTelegramBotAPI: {tg_data.data}\n")
 
             if len(tg_data.data) == 0:
                 continue
@@ -474,7 +483,7 @@ class TelegramBotAPI:
 
         if request_result.status_code != 200:
             print(f"{'=' * 30}\n" \
-                f"\Error:\n"
+                f"Error:\n"
                 f"getMe: request status code == {request_result.status_code}\n"
                 f"Text: {request_result.text}\n")
             return
