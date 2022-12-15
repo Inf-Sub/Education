@@ -41,16 +41,10 @@ if(task_version == 1){
         b = Convert.ToInt32(Console.ReadLine());
         System.Threading.Thread.Sleep(500);
 
-        if(b != 0){
-            // result = (a / b == b) ? "ДА" : "НЕ";
-            Console.WriteLine(
-                $"Результат проверки: число {a} - {((a / b == b) ? "ДА" : "НЕ")} является квадратом числа {b}"
-            );
-        }else{
-            Console.WriteLine($"Переменная b == {b}, деление на {b} запрещено!");
-            System.Threading.Thread.Sleep(1000);
-            Console.WriteLine("*Bonk*");
-        };
+        Console.WriteLine(
+            $"Результат проверки: число {a} - {((a * b == a) ? "ДА" : "НЕ")} является квадратом числа {b}"
+        );
+
         System.Threading.Thread.Sleep(2000);
         
         // Console.Clear();
@@ -76,17 +70,10 @@ if(task_version == 1){
         b = array[i, 1];
         i++;
         
+        Console.WriteLine(
+            $"Результат проверки: число {a} - {((a * b == a) ? "ДА" : "НЕ")} является квадратом числа {b}"
+        );
 
-        if(b != 0){
-            // result = (a / b == b) ? "ДА" : "НЕ";
-            Console.WriteLine(
-                $"Результат проверки: число {a} - {((a / b == b) ? "ДА" : "НЕ")} является квадратом числа {b}"
-            );
-        }else{
-            Console.WriteLine($"Переменная b == {b}, деление на {b} запрещено!");
-            System.Threading.Thread.Sleep(1000);
-            Console.WriteLine("*Bonk*");
-        };
         System.Threading.Thread.Sleep(1000);
     };
 }else{
