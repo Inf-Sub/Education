@@ -10,17 +10,24 @@ while(distance > 10){
     if(friend == 1){
         time = distance / (first_friend_speed + dog_speed);
         friend = 2;
+        Console.WriteLine(
+            $"1 {string.Concat(Enumerable.Repeat("-", System.Convert.ToInt32(System.Math.Floor(distance) / 10)))}> 2"
+        );
     }else{
         time = distance / (second_friend_speed + dog_speed);
         friend = 1;
+        Console.WriteLine(
+            $"1 <{string.Concat(Enumerable.Repeat("-", System.Convert.ToInt32(System.Math.Floor(distance) / 10)))} 2"
+        );
     };
     distance = distance - (first_friend_speed + second_friend_speed) * time;
     count++;    
-    /*
-    Console.WriteLine("count: "+ count);
-    Console.WriteLine("distance: "+ distance);
-    Console.WriteLine("time: "+ time);
-    Console.WriteLine("");
-    */
+
+    Console.WriteLine(
+        $"count: {count}\n"+
+        $"distance: {distance}\n"+
+        $"time: {time}\n"
+    );
+
 };
 Console.WriteLine(count);
