@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿/*
+Задача 2: Напишите программу, которая на вход принимает два числа и выдает, какое число большее, а какое меньшее
+
+*/
