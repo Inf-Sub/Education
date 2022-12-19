@@ -2,26 +2,26 @@
 Задача 2: Напишите программу, которая на вход принимает два числа и выдает, какое число большее, а какое меньшее
 
 */
-string read;
 double a, b, min, max;
+
+double ReadDoubleFromString(string write)
+{
+    Console.Write($"{write}");
+    string? text = Console.ReadLine()?.Replace(".", ",");
+
+    return Convert.ToDouble(text);
+};
 
 while (true)
 {
-    Console.Clear();
+    //Console.Clear();
 
     Console.WriteLine(
         "Задача 2: Напишите программу, которая на вход принимает два числа и выдает, какое число большее, а какое меньшее.\n"
     );
 
-    Console.Write("Введите первое число: ");
-    read = Console.ReadLine();
-    read = read.Replace(".", ",");
-    a = Convert.ToDouble(read);
-
-    Console.Write("Введите первое число: ");
-    read = Console.ReadLine();
-    read = read.Replace(".", ",");
-    b = Convert.ToDouble(read);
+    a = ReadDoubleFromString("Введите первое число: ");
+    b = ReadDoubleFromString("Введите второе число: ");
 
     if(a < b){
         min = a;

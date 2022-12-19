@@ -8,6 +8,11 @@
 
 */
 
+void WaitSeconds(double sec)
+{
+    System.Threading.Thread.Sleep((int)(sec * 1000));
+};
+
 while (true)
 {
     Console.Clear();
@@ -19,14 +24,20 @@ while (true)
 
     Console.Write("Введите целое трехзначное число: ");
     int a = Convert.ToInt32(Console.ReadLine());
-    if (a < 100 || a > 999)
+    int b = a;
+
+    if(b < 0){
+        b *= -1;
+    };
+    
+    if ((b < 100 || b >= 1000))
     {
         Console.WriteLine($"Вы ввели НЕ трехзначное число, ваше число: {a}. Попробуйте еще раз!");
-        System.Threading.Thread.Sleep(2000);
+        WaitSeconds(3);
     }
     else
     {
-        Console.WriteLine($"{a % 10}");
+        Console.WriteLine($"{b % 10}");
         break;
     };
 };

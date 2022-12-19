@@ -9,13 +9,18 @@
 string day;
 int number;
 
+void WaitSeconds(double sec)
+{
+    System.Threading.Thread.Sleep((int)(sec * 1000));
+};
+
 Console.Clear();
 
 Console.WriteLine(
     "Задача №3. Напишите программу, которая будет выдавать название дня недели по заданному номеру:\n"+
     "\n"
 );
-System.Threading.Thread.Sleep(1000);
+WaitSeconds(1);
 
 do{
     Console.Clear();
@@ -41,7 +46,7 @@ do{
     }else{
         day = "";
         Console.WriteLine($"Дня недели с номером {number} не существует, попробуйте еще раз!\n");
-        System.Threading.Thread.Sleep(2000);
+        WaitSeconds(2);
     };
     // Console.WriteLine($"{number} -> {day}");
 }while(day == "");

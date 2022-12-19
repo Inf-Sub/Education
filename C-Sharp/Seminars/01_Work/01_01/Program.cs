@@ -14,7 +14,11 @@ int[ , ] array = { {25, 5}, { 2, 10 }, {9, -3}, {-3, 9} };
 // string result;
 
 
-
+void WaitSeconds(double sec)
+{
+    System.Threading.Thread.Sleep((int)(sec * 1000));
+};
+    
 
 
 Console.Clear();
@@ -23,14 +27,17 @@ Console.WriteLine(
     "ЗАДАЧА 1: Введите два числа, для проверки, является ли первое число квадратом второго:\n"+
     "\n"
 );
-System.Threading.Thread.Sleep(1000);
+
+WaitSeconds(1);
+
 Console.WriteLine(
     "Введите 1, если вы хотите вводить числа вручную в окно консоли или\n"+
     "введите 2, если программа должна взять числа заданные в задаче:"
 );
 task_version = Convert.ToInt32(Console.ReadLine());
 Console.WriteLine($"Введен вариант: {task_version}");
-System.Threading.Thread.Sleep(1000);
+
+WaitSeconds(1);
 
 if(task_version == 1){
     while(true){
@@ -39,14 +46,15 @@ if(task_version == 1){
         a = Convert.ToInt32(Console.ReadLine());
         Console.Write($"Введите второе число: ");
         b = Convert.ToInt32(Console.ReadLine());
-        System.Threading.Thread.Sleep(500);
+
+        WaitSeconds(0.5);
 
         Console.WriteLine(
             $"Результат проверки: a = {a} b = {b} -> {((b * b == a) ? "ДА" : "НЕТ")} "+
             $"(число {a} - {((b * b == a) ? "ДА" : "НЕ")} является квадратом числа {b})"
         );
 
-        System.Threading.Thread.Sleep(2000);
+        WaitSeconds(2);
         
         // Console.Clear();
 
@@ -76,7 +84,7 @@ if(task_version == 1){
             $"(число {a} - {((b * b == a) ? "ДА" : "НЕ")} является квадратом числа {b})"
         );
 
-        System.Threading.Thread.Sleep(1000);
+        WaitSeconds(1);
     };
 }else{
     Console.Clear();
@@ -85,7 +93,7 @@ if(task_version == 1){
         while(i > 0){
         Console.WriteLine(i--);
         // await Task.Delay(1000);
-        System.Threading.Thread.Sleep(1000);
+        WaitSeconds(1);
     };    
     Console.Clear();
     Console.WriteLine("*Bonk*");

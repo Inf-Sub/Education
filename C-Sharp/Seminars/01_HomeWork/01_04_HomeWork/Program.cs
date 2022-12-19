@@ -3,14 +3,39 @@
 
 */
 
-string read, version;
+string? version;
 double a, b, c, i, max;
-string[] array;
+string[]? array;
 int len;
 int count = 3;
+char[] charsToTrim = {' '};
 
-while (true)
-{
+
+double ReadDoubleFromString(string write){
+    Console.Write($"{write}");
+    string? text = Console.ReadLine()?.Trim(charsToTrim).Replace(".", ",");
+
+    return Convert.ToDouble(text);
+};
+
+bool ExitFromProg(){
+    bool result;
+    Console.Write(
+        $"Нажмите ENTER для продолжения или любую клавишу и затем ENTER для выхода из программы "
+    );
+
+    result = (Console.ReadLine() != "") ? true : false;
+    Console.WriteLine();
+
+    return result;
+};
+
+double MaxNumbers(double num1, double num2){
+    return (num2 > num1) ? num2 : num1;
+};
+
+
+while (true){
     Console.Clear();
 
     Console.WriteLine(
@@ -24,99 +49,51 @@ while (true)
         "Введите любое другое значение, для выхода из программы: "
     );
     version = Console.ReadLine();
+    Console.WriteLine();
 
+    if(version != "1" && version != "2"){
+        break;
+    };
 
-    if (version == "1")
-    {
-        while (true)
-        {
+    while (true){
+        if (version == "1"){
             Console.Write("Введите три числа через пробел: ");
-            read = Console.ReadLine();
-            read = read.Replace(".", ",");
-            array = read.Split(' ');
+
+            array = Console.ReadLine()?.Trim(charsToTrim).Replace(".", ",").Split(' ');
             len = array.Length;
+            //Console.WriteLine($"{len}");
 
-            Console.WriteLine($"{len}");
+            if (len == count){
+                max = len - 1;
 
-            if (len != count)
-            {
-                Console.Write(
-                                $"Количество введенных чисел: {len}, по условию задачи - должно быть {count} числа!\n\n" +
-                                $"Нажмите ENTER для продолжения или любую клавишу и затем ENTER для выхода из программы "
-                );
-            };
-
-
-            max = len - 1;
-
-            while (len-- > 0)
-            {
-                i = Convert.ToDouble(array[len]);
-
-                if (i > max)
-                {
-                    max = i;
+                while (len-- > 0){
+                    i = Convert.ToDouble(array[len]);
+                    if (i > max) max = i;
                 };
+
+                Console.WriteLine($"Число {max} максимальное!\n");
+            }else{
+                Console.WriteLine($"Количество введенных чисел: {len}, по условию задачи - должно быть {count} числа!\n\n");
             };
-
-            Console.Write(
-                $"Число {max} максимальное!\n\n" +
-                $"Нажмите ENTER для продолжения или любую клавишу и затем ENTER для выхода из программы "
-            );
-
-
-            if (Console.ReadLine() != "")
-            {
-                break;
-            };
-        };
-    }
-    else if (version == "2")
-    {
-        while (true)
-        {
+        }else if (version == "2"){
             Console.WriteLine("Введите три числа!");
 
-            Console.Write("Введите первое число: ");
-            read = Console.ReadLine();
-            read = read.Replace(".", ",");
-            a = Convert.ToDouble(read);
-
-            Console.Write("Введите второе число: ");
-            read = Console.ReadLine();
-            read = read.Replace(".", ",");
-            b = Convert.ToDouble(read);
-
-            Console.Write("Введите третье число: ");
-            read = Console.ReadLine();
-            read = read.Replace(".", ",");
-            c = Convert.ToDouble(read);
-
+            a = ReadDoubleFromString("Введите первое число: ");
+            b = ReadDoubleFromString("Введите второе число: ");
+            c = ReadDoubleFromString("Введите третье число: ");
 
             // решение без массивов:
-            max = a;
-            if (b > max)
-            {
-                max = b;
-            }
-            else if (c > max)
-            {
-                max = c;
-            };
-
-            Console.Write(
-                $"Число {max} максимальное!\n\n" +
-                $"Нажмите ENTER для продолжения или любую клавишу и затем ENTER для выхода из программы "
-            );
-            if (Console.ReadLine() != "")
-            {
-                break;
-            };
+            max = MaxNumbers(MaxNumbers(a, b), c);
+            
+            Console.WriteLine($"Число {max} максимальное!\n");
+        }else{
+            break;
         };
+         
 
-    }
-    else
-    {
-        break;
+        if (ExitFromProg())
+        {
+            break;
+        };
     };
 };
