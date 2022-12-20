@@ -14,8 +14,8 @@ int first = a % 10;
 int second = (a % 100) / 10;
 int third = a / 100;
 Console.WriteLine($"a: {a}; first: {first}; second: {second}; third: {third}");
-int result = third * 100 + third;
-
+int result = third * 10 + first;
+Console.WriteLine($"{result}");
 
 /*
 Напишите программу, которая выводит случайное трехзначное число и удаляет вторую цифру этого числа.
