@@ -17,4 +17,5 @@ int y2=int.Parse(Console.ReadLine());
 
 double d = Math.Sqrt(Math.Pow(x1-x2, 2) + Math.Pow(y1-y2, 2));
 
+// форматирование вывода через :f= количество знаков после запятой
 Console.WriteLine($"d={d:f3}");
