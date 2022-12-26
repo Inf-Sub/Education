@@ -70,9 +70,9 @@ void Run(){
         TitleTask(title);
         WaitSeconds(1);
         ExitFromProg(false);
-        num = ReadIntegerFromString("Введите целое число (N): ");
+        num = ReadIntegerFromString("Введите целое число (N):");
         for(i = 1; i <= num; i++){
-            Console.Write($"{i*i*i}");
+            Console.Write($"{Math.Pow(i, 3)}");
             if(i < num){
                 Console.Write(", ");
             };
@@ -81,6 +81,5 @@ void Run(){
     };
 
 };
-
 
 Run();

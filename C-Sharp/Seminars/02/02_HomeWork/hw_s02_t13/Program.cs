@@ -10,6 +10,8 @@
 int num;
 int module;
 int typeTask = 0;
+int index;
+int last = 0;
 
 void WaitSeconds(double sec)
 {
@@ -40,14 +42,19 @@ while (true)
         Console.Write("Введите целое число: ");
     num = Convert.ToInt32(Console.ReadLine());
     }else{
-        num = new Random().Next(-10000, 10000);
+        num = new Random().Next(-10000000, 10000000);
     };
     module = (num >= 0) ? num : num * -1;
 
-    if(module < 100){
+    index = 100;
+    if(module < index){
         Console.WriteLine($"В числе {num} - третьей цифры нет!");
     }else{
-        Console.WriteLine($"{num} => {module / 100 % 10}");
+        for (index *= 10; module > index; index *= 10){
+            last = index;
+            //Console.WriteLine($"{num} => {index} {module / (index / 100) % 10}");
+        };
+        Console.WriteLine($"{num} => {module / (last / 100) % 10}");
     };        
     WaitSeconds(2);
 };
