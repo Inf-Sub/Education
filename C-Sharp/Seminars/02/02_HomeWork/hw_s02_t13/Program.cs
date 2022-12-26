@@ -44,6 +44,10 @@ while (true)
     };
     module = (num >= 0) ? num : num * -1;
 
-    Console.WriteLine($"{num} => {module / 100 % 10}");
+    if(module < 100){
+        Console.WriteLine($"В числе {num} - третьей цифры нет!");
+    }else{
+        Console.WriteLine($"{num} => {module / 100 % 10}");
+    };        
     WaitSeconds(2);
 };
