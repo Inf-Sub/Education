@@ -48,7 +48,20 @@ class GameManager:
                 config['api_key']
             )
 
+            # Если API вернула ошибку и в функции у нас просто return ( так как нет обработки ошибок api)
+            # для примера - если бот уже запущен и запускаем второй экземпляр бота
+            if tg_data.data is None:
+                print(f"{'=' * 30}\n" \
+                    f"Error:\n" \
+                    f"TelegramBotAPI Type == {type(tg_data.data)}\n"
+                    )
+                return
+
             time.sleep(1)
+
+            #if self.debug:
+            #    print(f"{'=' * 30}\nTelegramBotAPI Type: {type(tg_data.data)}\n")
+            #    print(f"{'=' * 30}\nTelegramBotAPI: {tg_data.data}\n")
 
             if len(tg_data.data) == 0:
                 continue
@@ -173,6 +186,16 @@ class GameManager:
 
                         # if the number of players participating in the round is more than one
                         if len(self._status[tg_chat_id][round_id]) > 1:
+
+                            # Линейный однопроходной алгоритм, чтобы найти любой ключ, соответствующий 
+                            # максимальному значению в словаре (результат в новый словарь пишется):
+
+                            #final_dict = dict([max(start_dict.items(), key=lambda k_v: k_v[1])])
+                            
+                            #Если наибольшее значение может повторяться, то чтобы найти все соответствующие ключи:
+                            #max_value = max(start_dict.values())
+                            #final_dict = {k: v for k, v in start_dict.items() if v == max_value}
+
                             self._status[tg_chat_id].append({})
                         else:
                             tg_data.send_message({
@@ -461,7 +484,7 @@ class TelegramBotAPI:
 
         if request_result.status_code != 200:
             print(f"{'=' * 30}\n" \
-                f"\Error:\n"
+                f"Error:\n"
                 f"getMe: request status code == {request_result.status_code}\n"
                 f"Text: {request_result.text}\n")
             return
@@ -509,7 +532,10 @@ class TelegramBotAPI:
 
         api_data = request_result.json()
         if self.debug:
-            print(f"{'=' * 30}\ngetUpdates: API Data:\n{api_data}\n")
+            print(f"{'=' * 30}\n" \
+                f"getUpdates: API Data:\n{api_data}\n" \
+                #f"Type: {type(api_data)}\n"
+                )
 
         # for test getChatAdministrators
         #request_result = req.get(self._tg_api_url+'/getChatAdministrators', headers=self._headers, params={'chat_id': -862538827})
