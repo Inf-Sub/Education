@@ -1,5 +1,6 @@
 .env
 .venv
+.idea
 *.txt
 test.*
 *.log
