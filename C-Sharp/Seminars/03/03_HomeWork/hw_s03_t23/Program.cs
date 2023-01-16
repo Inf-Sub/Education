@@ -9,6 +9,36 @@
 
 
 
+Run();
+
+
+void Run(){
+    string rn = "\n";
+    string title = $"Задача 23: {rn}"+
+                   $"Напишите программу, которая принимает на вход число (N){rn}"+
+                   $"и выдаёт таблицу кубов чисел от 1 до N.{rn}";
+    int num;
+    int i;
+
+    ProgressBar();
+
+    while(true){
+        TitleTask(title);
+        WaitSeconds(1);
+        ExitFromProg(false);
+        num = ReadIntegerFromString("Введите целое число (N):");
+        for(i = 1; i <= num; i++){
+            Console.Write($"{Math.Pow(i, 3)}");
+            if(i < num){
+                Console.Write(", ");
+            };
+        };
+        WaitSeconds(3);
+    };
+
+};
+
+
 void WaitSeconds(double sec){
     System.Threading.Thread.Sleep((int)(sec * 1000));
 };
@@ -55,31 +85,3 @@ int ReadIntegerFromString(string write){
         };
     };    
 };
-
-void Run(){
-    string rn = "\n";
-    string title = $"Задача 23: {rn}"+
-                   $"Напишите программу, которая принимает на вход число (N){rn}"+
-                   $"и выдаёт таблицу кубов чисел от 1 до N.{rn}";
-    int num;
-    int i;
-
-    ProgressBar();
-
-    while(true){
-        TitleTask(title);
-        WaitSeconds(1);
-        ExitFromProg(false);
-        num = ReadIntegerFromString("Введите целое число (N):");
-        for(i = 1; i <= num; i++){
-            Console.Write($"{Math.Pow(i, 3)}");
-            if(i < num){
-                Console.Write(", ");
-            };
-        };
-        WaitSeconds(3);
-    };
-
-};
-
-Run();
