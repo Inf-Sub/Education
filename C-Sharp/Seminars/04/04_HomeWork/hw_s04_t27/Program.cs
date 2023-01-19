@@ -30,7 +30,7 @@ void Run(){
 
 
     while(true){
-        TitleTask(title);
+        ViewTitleTask(title);
         WaitSeconds(1);
         ExitFromProg(false);
         number = ReadIntegerFromString("Введите целое число:");
@@ -74,7 +74,7 @@ void WaitSeconds(double sec){
 };
 
 
-void TitleTask(string? text = ""){
+void ViewTitleTask(string? text = ""){
     Console.Clear();
     Console.WriteLine($"{text}");
     Console.WriteLine();
@@ -121,6 +121,7 @@ int ReadIntegerFromString(string write){
         };
     };    
 };
+
 
 double ReadDoubleFromString(string write){
     char[] charsToTrim = {' '};
