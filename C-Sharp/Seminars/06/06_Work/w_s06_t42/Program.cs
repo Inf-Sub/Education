@@ -56,7 +56,7 @@ while (N > 0)
     Array[Array.Length-i-1] = N % 2;
     Console.Write($"i: {i} N: {N} / 2 = ");
     N = N/2;
-    Console.WriteLine($"{N} result: {Array[Array.Length-i-1]} {long.Parse(String.Join("", Array))}");
+    Console.WriteLine($"{N} result: {Array[Array.Length-i-1]} {/*long.Parse(*/String.Join("", Array)/*)*/}");
     i++;
 }
 Console.WriteLine($"num: {num}");
