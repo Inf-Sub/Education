@@ -21,10 +21,12 @@ void Run(){
         $"Например:{rn}"+
         $"[345, 897, 568, 234] -> 2{rn}"+
         $"{rn}"+
-        $"Для звавершения программы, нажмите Ctrl + C{rn}";
+        $"Для завершения программы, нажмите Ctrl + C{rn}";
 
     int ArrayLenghtMin = 5;
     int ArrayLenghtMax = 15;
+    int NumberMin = 100;
+    int NumberMax = 1000;
     int ArrayLenght;
     int[] ArrayRandomInt;
     int result;
@@ -37,17 +39,17 @@ void Run(){
         
         ArrayLenght = new Random().Next(ArrayLenghtMin, ArrayLenghtMax + 1);
 
-        ArrayRandomInt = CreateRandomArray(ArrayLenght, 100, 999);
+        ArrayRandomInt = CreateRandomArray(ArrayLenght, NumberMin, NumberMax);
 
-        Console.WriteLine($"Рандомный массив из {ArrayLenght} чисел от {ArrayLenghtMin} до {ArrayLenghtMax}:");
+        Console.WriteLine($"Создан рандомный массив из {ArrayLenght} чисел от {NumberMin} до {NumberMax - 1}:");
         ShowArrayInt(ArrayRandomInt);
 
         result = NumberOfEvenNumbersInArray(ArrayRandomInt);
 
-        Console.WriteLine($"Найдено {result} положительных чисел в массиве!");
+        Console.WriteLine($"В созданном массиве - найдено {result} положительных чисел!");
 
-
-        WaitSeconds(5);
+        // время ожидания до обновления массива в сек.
+        WaitSeconds(7);
     };
 
 };
