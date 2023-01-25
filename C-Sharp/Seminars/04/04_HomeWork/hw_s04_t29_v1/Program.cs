@@ -12,11 +12,9 @@ using System.Text.RegularExpressions;
 
 
 Run();
-
-
 void Run(){
     bool debug = DebugMode();
-    ProgressBar();
+    //ProgressBar();
 
     string rn = "\n";
     string title = $"Урок 4. Функции. Задача 29: {rn}"+
@@ -106,7 +104,7 @@ void ViewTitleTask(string? text = ""){
     Console.WriteLine();
 };
 
-
+/*
 void ProgressBar(){    
     Console.Clear();
     Console.WriteLine("Loading...");
@@ -118,7 +116,7 @@ void ProgressBar(){
     WaitSeconds(1);
 
 };
-
+*/
 
 void ExitFromProg(bool exit = true, string? text = ""){
     if(!exit){

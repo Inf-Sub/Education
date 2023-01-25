@@ -44,7 +44,7 @@ void Run(){
         arrLen = new Random().Next(arrLenMin, arrLenMax + 1);
         ArrayRandomDouble = CreateRandomDoubleArray(arrLen, arrMin, arrMax);
         Console.WriteLine($"Создан рандомный массив из {arrLen} вещественных чисел от {arrMin} до {arrMax}:");
-        ShowArrayDouble(ArrayRandomDouble, 3);
+        ShowArrayDouble(ArrayRandomDouble);
 
         result = getDiffBetweenMaxMinElementsOfArray(ArrayRandomDouble);
 
@@ -87,7 +87,7 @@ double[] CreateRandomDoubleArray(int N, double min, double max){
 };
 
 
-void ShowArrayDouble(double[] array, int format){
+void ShowArrayDouble(double[] array){
     int len = array.Length;
     for (int i = 0; i < len; i++){
         Console.Write($"{array[i]:f3} ");
