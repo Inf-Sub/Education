@@ -33,13 +33,9 @@ void Run(){
     int arrLenMin = 3;
     int arrLenMax = 8;
 
-    int arrMin = -100;
-    int arrMax = 100;
+    int arrMin = -10000;
+    int arrMax = 10000;
     int[,] ArrayRandomInt;
-    int rowLen;
-    int colLen;
-    double sum;
-    double average;
 
 
     while(true){
@@ -55,30 +51,35 @@ void Run(){
         Console.WriteLine();
         
         
-        rowLen = ArrayRandomInt.GetLength(0);
-        colLen = ArrayRandomInt.GetLength(1);
-
-        //Console.WriteLine($"Расчет:");
-        for(int c = 0; c < colLen; c++){
-            sum = 0;
-            for(int r = 0; r < rowLen; r++){
-                sum += ArrayRandomInt[r, c];
-                //if(r != 0){Console.Write($"+");};
-                //Console.Write($" {ArrayRandomInt[r, c]}\t");
-            };
-            average = sum / rowLen;
-            //Console.WriteLine($"= {sum}\t/ {rowLen}\t= {average}");
-            Console.WriteLine($"Среднее арифметическое {c} столбца: {average:f3}");
-        };
-
-
-
-        Console.WriteLine();
+        getAverage(ArrayRandomInt);
 
         // время ожидания до обновления массива в сек.
         WaitSeconds(10);
     };
 
+};
+
+
+
+void getAverage(int[,] array){
+    int rowLen = array.GetLength(0);
+    int colLen = array.GetLength(1);
+    double sum;
+    double average;
+
+    //Console.WriteLine($"Расчет:");
+    for(int c = 0; c < colLen; c++){
+        sum = 0;
+        for(int r = 0; r < rowLen; r++){
+            sum += array[r, c];
+            //if(r != 0){Console.Write($"+");};
+            //Console.Write($" {array[r, c]}\t");
+        };
+        average = sum / rowLen;
+        //Console.WriteLine($"= {sum}\t/ {rowLen}\t= {average}");
+        Console.WriteLine($"Среднее арифметическое {c} столбца: {average:f3}");
+    };
+    Console.WriteLine();
 };
 
 
@@ -117,7 +118,7 @@ void ShowArrayTwoDimensionalInt(int[,] array){
     int lenCol = array.GetLength(1);
     for (int i = 0; i < lenRow; i++){
         for (int j = 0; j < lenCol; j++){
-            Console.Write($"|  {array[i, j]}\t");
+            Console.Write($"| {array[i, j]}\t");
         };
         Console.WriteLine("|");
     };
