@@ -37,10 +37,10 @@ void Run(){
     int arrRowLen = 0;
     int arrColLen = 0;
     int arrLenMin = 3;
-    int arrLenMax = 8;
+    int arrLenMax = 10;
 
     int arrMin = 0;
-    int arrMax = 10;
+    int arrMax = 100;
     int[,] ArrayRandomInt;
     int[,] resultArray;
 
@@ -78,25 +78,25 @@ int[,] SortMaxToMinArray(int[,] array){
     Console.WriteLine($"lenRow: {lenRow} lenCol: {lenCol} ");
 
     for(int row = 0; row < lenRow; row++){ 
-        Console.WriteLine($"row {row}");
+        //Console.WriteLine($"row {row}");
         for(int i= 0; i < lenCol-1; i++){
-            Console.WriteLine($"i {i}");
+            //Console.WriteLine($"i {i}");
             for(int col = 1, prev = 0; col < lenCol; col++, prev++){
                 //Console.WriteLine($"prev {prev}/{lenCol}");
                 max = array[row, prev];
-                //min = array[row, col];
+                min = array[row, col];
                 //Console.Write($"= max: {max}, min: {min} | ");
 
-                if(max < array[row, col]){
+                if(max < min){
                     array[row, prev] = min; // max
-                    //array[row, col] = max;  // min
+                    array[row, col] = max;  // min
                     //Console.Write($"= min: {min}, max: {max} | ");
                 };
-                Console.Write($"{array[row, prev]} >> ");
+                //Console.Write($"{array[row, prev]} >> ");
             };
-            Console.WriteLine();
+            //Console.WriteLine();
         };
-        Console.WriteLine();
+        //Console.WriteLine();
     };
 
     return array;
