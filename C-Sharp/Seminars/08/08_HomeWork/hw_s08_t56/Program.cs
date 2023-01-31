@@ -1,14 +1,14 @@
 ﻿/*
-Урок 8. Двумерные массивы. Продолжение
-Задача 54: Задайте двумерный массив. Напишите программу, которая упорядочит по убыванию элементы каждой строки двумерного массива.
+Задача 56: 
+Задайте прямоугольный двумерный массив. Напишите программу, которая 
+будет находить строку с наименьшей суммой элементов.
 Например, задан массив:
 1 4 7 2
 5 9 2 3
 8 4 2 4
-В итоге получается вот такой массив:
-7 4 2 1
-9 5 3 2
-8 4 4 2
+5 2 6 7
+Программа считает сумму элементов в каждой строке и выдаёт номер строки 
+с наименьшей суммой элементов: 1 строка
 */
 
 
@@ -19,14 +19,18 @@ void Run(){
     string rn = "\n";
     string title =  
         $"Урок 8. Двумерные массивы.{rn}"+
-        $"Задача 54:{rn}"+
-        $"Задайте двумерный массив. Напишите программу, которая упорядочит по убыванию.{rn}"+
-        $"элементы каждой строки двумерного массива.{rn}"+
+        $"Задача 56:{rn}"+
+        $"Задайте прямоугольный двумерный массив. Напишите программу, которая{rn}"+
+        $"будет находить строку с наименьшей суммой элементов.{rn}"+
         $"{rn}"+
-        $"Например:\tРезультат:{rn}"+
-        $"1 4 7 2  \t7 4 2 1{rn}"+
-        $"5 9 2 3  \t9 5 3 2{rn}"+
-        $"8 4 2 4  \t8 4 4 2{rn}";
+        $"Например, задан массив:{rn}"+
+        $"1 4 7 2{rn}"+
+        $"5 9 2 3{rn}"+
+        $"8 4 2 4{rn}"+
+        $"5 2 6 7{rn}"+
+        $"Программа считает сумму элементов в каждой строке и выдаёт номер строки{rn}"+
+        $"с наименьшей суммой элементов: 1 строка{rn}";
+        
 
     int arrRowLen = 0;
     int arrColLen = 0;
@@ -36,12 +40,13 @@ void Run(){
     int arrMin = 0;
     int arrMax = 100;
     int[,] ArrayRandomInt;
-    int[,] resultArray;
+    int resultStringNumber;
 
 
     ViewTitleTask(title);
 
     while(true){
+        
         
         arrRowLen = new Random().Next(arrLenMin, arrLenMax + 1);
         arrColLen = new Random().Next(arrRowLen, arrRowLen * 2 + 1);
@@ -51,9 +56,13 @@ void Run(){
         ShowArrayTwoDimensionalInt(ArrayRandomInt);
         Console.WriteLine();        
         
-        resultArray = SortMaxToMinArray(ArrayRandomInt);
         
-        ShowArrayTwoDimensionalInt(resultArray);
+        resultStringNumber = findSmallSumElementsOnArray(ArrayRandomInt);
+              
+        Console.WriteLine(
+            $"Наименьшая сумма элементов в {resultStringNumber + 1} строке "+
+            $"(с индексом {resultStringNumber})"
+        );
         Console.WriteLine();
 
         // время ожидания до обновления массива в сек.
@@ -63,38 +72,27 @@ void Run(){
 };
 
 
-int[,] SortMaxToMinArray(int[,] array){
-    int min, max;
+int findSmallSumElementsOnArray(int[,] array){
+       int min = 0, sum, findStr = 0;
     int lenRow = array.GetLength(0);
     int lenCol = array.GetLength(1);
-    //int[,] result = new int[lenCol, lenRow];
-    
-    Console.WriteLine($"lenRow: {lenRow} lenCol: {lenCol} ");
-
-    for(int row = 0; row < lenRow; row++){ 
-        //Console.WriteLine($"row {row}");
-        for(int i = 0; i < lenCol - 1; i++){
-            //Console.WriteLine($"i {i}");
-            for(int col = 1, prev = 0; col < lenCol; col++, prev++){
-                //Console.WriteLine($"prev {prev}/{lenCol}");
-                max = array[row, prev];
-                min = array[row, col];
-                //Console.Write($"= max: {max}, min: {min} | ");
-
-                if(max < min){
-                    array[row, prev] = min; // max
-                    array[row, col] = max;  // min
-                    //Console.Write($"= min: {min}, max: {max} | ");
-                };
-                //Console.Write($"{array[row, prev]} >> ");
-            };
-            //Console.WriteLine();
+    for(int row = 0; row < lenRow; row++){
+        sum = 0;
+        for(int col = 0; col < lenCol; col++){
+            sum += array[row, col];
         };
-        //Console.WriteLine();
+        if(row == 0 || min > sum){
+            min = sum; 
+            findStr = row;
+        };
+        // детализация по поиску
+        Console.WriteLine($"row: {row} | sum: {sum} | min: {min} | findStr: {findStr}");
     };
-
-    return array;
+    Console.WriteLine();
+    
+    return findStr;
 };
+
 
 
 // создаем рандомный массив вещественных чисел
@@ -125,6 +123,7 @@ int ReadIntegerFromString(string write){
         };
     };    
 };
+
 
 
 void ShowArrayTwoDimensionalInt(int[,] array){
