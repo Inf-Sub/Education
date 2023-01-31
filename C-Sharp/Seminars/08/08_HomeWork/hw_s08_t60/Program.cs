@@ -70,10 +70,10 @@ void Run(){
         // ыфводим созданный массив в консоль (для проверки и сравнения)
         ShowArray3DInt(ArrayRandomInt);
         Console.WriteLine();
-        WaitSeconds(3);
+        WaitSeconds(1);
 
         // построчно выводим массив, добавляя индексы каждого элемента
-        ShowArrayAndindex3DInt(ArrayRandomInt);
+        ShowArray3DInt(ArrayRandomInt, true);
 
         // время ожидания до обновления массива в сек.
         //WaitSeconds(10);
@@ -109,11 +109,13 @@ int findSmallSumElementsOnArray(int[,] array){
 
 bool CheckUniqueParamsForArray(int lenX, int lenY, int lenZ, int min, int max){
     bool result = true;
+    string rn = "\n";
     if(max - min < lenX * lenY * lenZ){
         Console.WriteLine(
-            $"При заданных значениях минимального ({min}) и максильного ({max}) чисел,\n"+
-            $"невозможно создать 3D массив заданных рахмеров: {lenX} x {lenY} x {lenZ},\n"+
-            $"так как количество рандомно созданных чисел ({max - min}), меньше количества\n"+
+            $"Упс... Кажется промашка вышла...))){rn+rn}"+
+            $"При заданных значениях минимального ({min}) и максильного ({max}) чисел,{rn}"+
+            $"невозможно создать 3D массив заданных рахмеров: {lenX} x {lenY} x {lenZ},{rn}"+
+            $"так как количество рандомно созданных чисел ({max - min}), меньше количества{rn}"+
             $"ячеек в массиве ({lenX * lenY * lenZ})"
         );
         WaitSeconds(2);
@@ -154,37 +156,21 @@ int[,,] CreateRandom3DUniqueIntArray(int lenX, int lenY, int lenZ, int min, int 
 };
 
 
-void ShowArray3DInt(int[,,] array){
+void ShowArray3DInt(int[,,] array, bool showCord = false){
     int lenX = array.GetLength(0);
     int lenY = array.GetLength(1);
     int lenZ = array.GetLength(2);
-    string newLine = new string('-', lenZ * 8 + 1);
+    string newLine = new string('-', lenZ * ((showCord) ? 16 : 8) + 1);
 
     Console.WriteLine($"{newLine}");  
     for (int x = 0; x < lenX; x++){
         for (int y = 0; y < lenY; y++){
             for (int z = 0; z < lenZ; z++){
-                Console.Write($"| {array[x, y, z]}\t");
-            };
-            Console.WriteLine("|");
-        };
-        Console.WriteLine($"{newLine}");        
-    };
-    Console.WriteLine();
-};
-
-
-void ShowArrayAndindex3DInt(int[,,] array){
-    int lenX = array.GetLength(0);
-    int lenY = array.GetLength(1);
-    int lenZ = array.GetLength(2);
-    string newLine = new string('-', lenZ * 16 + 1);
-
-    Console.WriteLine($"{newLine}");  
-    for (int x = 0; x < lenX; x++){
-        for (int y = 0; y < lenY; y++){
-            for (int z = 0; z < lenZ; z++){
-                Console.Write($"| {array[x, y, z]} ({x},{y},{z})\t");
+                Console.Write(
+                    $"| {array[x, y, z]}"+
+                    ((showCord) ? $" ({x},{y},{z})" : $"{String.Empty}" ) +
+                    $"\t"
+                );
             };
             Console.WriteLine("|");
         };
