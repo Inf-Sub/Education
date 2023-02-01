@@ -42,22 +42,30 @@ void Run(){
     ViewTitleTask(title);
 
     while(true){
+        Console.Clear();
         
         arrRowLen = new Random().Next(arrLenMin, arrLenMax + 1);
         arrColLen = new Random().Next(arrRowLen, arrRowLen * 2 + 1);
         ArrayRandomInt = CreateRandomTwoDimensionalIntArray(arrRowLen, arrColLen, arrMin, arrMax);
         
-        Console.WriteLine($"Создан рандомный двумерный массив {arrRowLen}x{arrColLen} вещественных чисел от {arrMin} до {arrMax}:");
+        Console.WriteLine(
+            $"Создан рандомный двумерный массив {arrRowLen} x {arrColLen} "+
+            $"вещественных чисел от {arrMin} до {arrMax}:"
+        );
         ShowArrayTwoDimensionalInt(ArrayRandomInt);
         Console.WriteLine();        
         
         resultArray = SortMaxToMinArray(ArrayRandomInt);
         
+        Console.WriteLine($"Выводим отсортированный массив:");
         ShowArrayTwoDimensionalInt(resultArray);
         Console.WriteLine();
 
         // время ожидания до обновления массива в сек.
-        WaitSeconds(10);
+        //WaitSeconds(10);
+        
+        Console.WriteLine($"Press any key to continue...");
+        Console.ReadKey();
     };
 
 };
@@ -69,7 +77,7 @@ int[,] SortMaxToMinArray(int[,] array){
     int lenCol = array.GetLength(1);
     //int[,] result = new int[lenCol, lenRow];
     
-    Console.WriteLine($"lenRow: {lenRow} lenCol: {lenCol} ");
+    //Console.WriteLine($"lenRow: {lenRow} lenCol: {lenCol} ");
 
     for(int row = 0; row < lenRow; row++){ 
         //Console.WriteLine($"row {row}");

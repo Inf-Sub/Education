@@ -56,6 +56,11 @@ void Run(){
         // для лучшего представления в терминале количество столбцов удваеваем по сравнению с количеством строк
         arrZLen = new Random().Next(arrYLen, arrYLen * 2 + 1);
 
+        // или задайте вручную:
+        // arrXLen = 2;
+        // arrYLen = 2;
+        // arrZLen = 2;
+
         // проверка значений на соответствие условию задачи
         if(!CheckUniqueParamsForArray(arrXLen, arrYLen, arrZLen, arrMin, arrMax)){
             continue;
@@ -118,7 +123,7 @@ bool CheckUniqueParamsForArray(int lenX, int lenY, int lenZ, int min, int max){
             $"так как количество рандомно созданных чисел ({max - min}), меньше количества{rn}"+
             $"ячеек в массиве ({lenX * lenY * lenZ})"
         );
-        WaitSeconds(2);
+        WaitSeconds(1);
         result = false;
     };
     return result;

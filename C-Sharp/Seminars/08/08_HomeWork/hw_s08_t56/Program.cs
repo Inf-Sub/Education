@@ -46,13 +46,17 @@ void Run(){
     ViewTitleTask(title);
 
     while(true){
+        Console.Clear();
         
         
         arrRowLen = new Random().Next(arrLenMin, arrLenMax + 1);
         arrColLen = new Random().Next(arrRowLen, arrRowLen * 2 + 1);
         ArrayRandomInt = CreateRandomTwoDimensionalIntArray(arrRowLen, arrColLen, arrMin, arrMax);
         
-        Console.WriteLine($"Создан рандомный двумерный массив {arrRowLen}x{arrColLen} вещественных чисел от {arrMin} до {arrMax}:");
+        Console.WriteLine(
+            $"Создан рандомный двумерный массив {arrRowLen} x {arrColLen} "+
+            $"вещественных чисел от {arrMin} до {arrMax}:"
+        );
         ShowArrayTwoDimensionalInt(ArrayRandomInt);
         Console.WriteLine();        
         
@@ -66,7 +70,10 @@ void Run(){
         Console.WriteLine();
 
         // время ожидания до обновления массива в сек.
-        WaitSeconds(10);
+        // WaitSeconds(10);
+        
+        Console.WriteLine($"Press any key to continue...");
+        Console.ReadKey();
     };
 
 };
