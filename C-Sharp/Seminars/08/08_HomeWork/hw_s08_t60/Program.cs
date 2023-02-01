@@ -86,29 +86,6 @@ void Run(){
         Console.WriteLine($"Press any key to continue...");
         Console.ReadKey();
     };
-
-};
-
-
-int findSmallSumElementsOnArray(int[,] array){
-       int min = 0, sum, findStr = 0;
-    int lenRow = array.GetLength(0);
-    int lenCol = array.GetLength(1);
-    for(int row = 0; row < lenRow; row++){
-        sum = 0;
-        for(int col = 0; col < lenCol; col++){
-            sum += array[row, col];
-        };
-        if(row == 0 || min > sum){
-            min = sum; 
-            findStr = row;
-        };
-        // детализация по поиску
-        Console.WriteLine($"row: {row} | sum: {sum} | min: {min} | findStr: {findStr}");
-    };
-    Console.WriteLine();
-    
-    return findStr;
 };
 
 
@@ -185,21 +162,6 @@ void ShowArray3DInt(int[,,] array, bool showCord = false){
 };
 
 
-int ReadIntegerFromString(string write){
-    while(true){
-        Console.Write($"{write} ");
-        string? text = Console.ReadLine();
-
-        if(text != String.Empty){
-            return Convert.ToInt32(text);
-        }else{
-            Console.WriteLine($"Attention: the data is incorrect!!!");
-            WaitSeconds(1);
-        };
-    };    
-};
-
-
 void WaitSeconds(double sec){
     System.Threading.Thread.Sleep((int)(sec * 1000));
 };
@@ -216,30 +178,5 @@ void ViewTitleTask(string? text = ""){
     );
     Console.ReadKey();
     Console.Clear();
-};
-
-
-int[] ReadIntegerArrayFromString(string write){
-    char[] charsToTrim = {' '};
-
-    while(true){
-        Console.Write($"{write} ");
-        // считываем данные
-        string? text = Console.ReadLine()?.Trim(charsToTrim);
-
-        if(text != String.Empty){            
-            string[] strArr = text.Split(',', '.', ' ');
-            int len = strArr.Length;
-            int[] intArr = new int[len];
-            for(int i = 0; i < len; i++){
-                intArr[i] = Convert.ToInt32(strArr[i]);
-            };
-
-            return intArr;
-        }else{
-            Console.WriteLine($"Attention: the data is incorrect!!!");
-            WaitSeconds(1);
-        };
-    };    
 };
 

@@ -13,6 +13,7 @@
 Run();
 
 
+
 void Run(){
     string rn = "\n";
     string title =  
@@ -30,7 +31,7 @@ void Run(){
     int arrLen;
 
     // ограничение длины массива
-    int arrLenMin = 4;
+    int arrLenMin = 1;
     int arrLenMax = 10;
 
     int[,] ArrayRandomInt;
@@ -41,18 +42,19 @@ void Run(){
     while(true){
         Console.Clear();
         
-        // длина ребра массива
+
         arrLen = new Random().Next(arrLenMin, arrLenMax + 1);
 
         ArrayRandomInt = new int[arrLen, arrLen];
 
-        MatrixSpiral(ArrayRandomInt);
+        MatrixSpiralAlternative(ArrayRandomInt);
 
         Console.WriteLine($"Создана матрица размером {arrLen} x {arrLen}:");
         ShowArrayTwoDimensionalInt(ArrayRandomInt);
         Console.WriteLine(); 
        
-                
+        
+        
         Console.WriteLine($"Press any key to continue...");
         Console.ReadKey();
     };
@@ -61,52 +63,29 @@ void Run(){
 
 
 // alternative method name: Anaconda
-void MatrixSpiral(int[,] array){
+void MatrixSpiralAlternative(int[,] array){
     int len = array.GetLength(0);
-    int num = 1;
-    int sum = len * len;
-    int Ring;
-    int row = 0;
-    int col = 0;
-    int index;
-    int max;
 
-    len -= 1;
+    // во избежание деления на 0
+    if(len == 1){
+        array[0, 0] = 1;
+        return;
+    };
 
-    // rings
-    for(Ring = 0; num <= sum; Ring += 2){
-        // длина ребра массива с учетом смещения в центр матрицы
-        max = len - Ring;
-        
-        // для нечетных матриц, иначе конечное число не подпадает под условия
-        if(max == 0 && (len+1) % 2 != 0){
-            max = 1;
+    for (int row = 0; row < len; row++){
+        for (int col = 0; col < len; col++){
+            int i = row + 1;     // Номера строк и столбцов приводим в удобный
+            int j = col + 1;     // в математическом плане вид (от 1 до len)  
+            
+            // основной код вычислений
+            int switcher =  (j - i + len) / len;
+            int CntrI = Math.Abs(i - len / 2  - 1) + (i - 1)/(len /2) * ((len-1) % 2);
+            int CntrJ = Math.Abs(j - len / 2  - 1) + (j - 1)/(len /2) * ((len-1) % 2);
+            int Ring = len / 2 - (Math.Abs(CntrI - CntrJ) + CntrI + CntrJ) / 2;
+            int RingLen = i - Ring + j - Ring - 1;    
+            int Coefficient = 4 * Ring * (len - Ring);
+            array[row, col] = Coefficient + switcher * RingLen + Math.Abs(switcher - 1) * (4 * (len - 2 * Ring) - 2 - RingLen);
         };
-
-        // move to right
-        for(index = 0; index < max && num <= sum; index++){
-            array[row, col++] = num++;
-        };
-
-        // move to down
-        for(index = 0; index < max && num <= sum; index++){
-            array[row++, col] = num++;
-        };
-
-        // move to left
-        max = Ring;
-        for(index = len; index > max && num <= sum; index--){
-            array[row, col--] = num++;
-        };
-        // компенсируем col-- в конце цикла
-        col++;
-
-        // move to top
-        for(index = len; index > max && num <= sum; index--){
-            array[row--, col] = num++;
-        };
-        // компенсируем row-- в конце цикла
-        row++;
     };
 };
 

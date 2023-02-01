@@ -79,18 +79,6 @@ void Run(){
         Console.WriteLine();        
 
 
-        /*
-        resultStringNumber = findSmallSumElementsOnArray(ArrayRandomInt);
-              
-        Console.WriteLine(
-            $"Наименьшая сумма элементов в {resultStringNumber + 1} строке "+
-            $"(с индексом {resultStringNumber})"
-        );
-        Console.WriteLine();
-*/
-        // время ожидания до обновления массива в сек.
-        // WaitSeconds(10);
-        
         Console.WriteLine($"Press any key to continue...");
         Console.ReadKey();
     };
@@ -121,29 +109,6 @@ int[,] MatrixMultiplication(int[,] ArrayA, int[,] ArrayB){
 };
 
 
-// int findSmallSumElementsOnArray(int[,] array){
-//        int min = 0, sum, findStr = 0;
-//     int lenRow = array.GetLength(0);
-//     int lenCol = array.GetLength(1);
-//     for(int row = 0; row < lenRow; row++){
-//         sum = 0;
-//         for(int col = 0; col < lenCol; col++){
-//             sum += array[row, col];
-//         };
-//         if(row == 0 || min > sum){
-//             min = sum; 
-//             findStr = row;
-//         };
-//         // детализация по поиску
-//         Console.WriteLine($"row: {row} | sum: {sum} | min: {min} | findStr: {findStr}");
-//     };
-//     Console.WriteLine();
-    
-//     return findStr;
-// };
-
-
-
 // создаем рандомный массив вещественных чисел
 int[,] CreateRandomTwoDimensionalIntArray(int row, int col, int min, int max){
     int[,] RandomArray = new int[row, col];
@@ -156,22 +121,6 @@ int[,] CreateRandomTwoDimensionalIntArray(int row, int col, int min, int max){
     };
     return RandomArray;
 };
-
-
-int ReadIntegerFromString(string write){
-    while(true){
-        Console.Write($"{write} ");
-        string? text = Console.ReadLine();
-
-        if(text != String.Empty){
-            return Convert.ToInt32(text);
-        }else{
-            Console.WriteLine($"Attention: the data is incorrect!!!");
-            WaitSeconds(1);
-        };
-    };    
-};
-
 
 
 void ShowArrayTwoDimensionalInt(int[,] array){
@@ -187,11 +136,6 @@ void ShowArrayTwoDimensionalInt(int[,] array){
 };
 
 
-void WaitSeconds(double sec){
-    System.Threading.Thread.Sleep((int)(sec * 1000));
-};
-
-
 // ViewTitleTask version 2.1
 void ViewTitleTask(string? text = ""){
     string rn = "\n";
@@ -204,29 +148,3 @@ void ViewTitleTask(string? text = ""){
     Console.ReadKey();
     Console.Clear();
 };
-
-
-int[] ReadIntegerArrayFromString(string write){
-    char[] charsToTrim = {' '};
-
-    while(true){
-        Console.Write($"{write} ");
-        // считываем данные
-        string? text = Console.ReadLine()?.Trim(charsToTrim);
-
-        if(text != String.Empty){            
-            string[] strArr = text.Split(',', '.', ' ');
-            int len = strArr.Length;
-            int[] intArr = new int[len];
-            for(int i = 0; i < len; i++){
-                intArr[i] = Convert.ToInt32(strArr[i]);
-            };
-
-            return intArr;
-        }else{
-            Console.WriteLine($"Attention: the data is incorrect!!!");
-            WaitSeconds(1);
-        };
-    };    
-};
-

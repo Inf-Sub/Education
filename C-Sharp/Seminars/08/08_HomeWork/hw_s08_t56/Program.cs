@@ -69,8 +69,6 @@ void Run(){
         );
         Console.WriteLine();
 
-        // время ожидания до обновления массива в сек.
-        // WaitSeconds(10);
         
         Console.WriteLine($"Press any key to continue...");
         Console.ReadKey();
@@ -117,22 +115,6 @@ int[,] CreateRandomTwoDimensionalIntArray(int row, int col, int min, int max){
 };
 
 
-int ReadIntegerFromString(string write){
-    while(true){
-        Console.Write($"{write} ");
-        string? text = Console.ReadLine();
-
-        if(text != String.Empty){
-            return Convert.ToInt32(text);
-        }else{
-            Console.WriteLine($"Attention: the data is incorrect!!!");
-            WaitSeconds(1);
-        };
-    };    
-};
-
-
-
 void ShowArrayTwoDimensionalInt(int[,] array){
     int lenRow = array.GetLength(0);
     int lenCol = array.GetLength(1);
@@ -143,11 +125,6 @@ void ShowArrayTwoDimensionalInt(int[,] array){
         Console.WriteLine("|");
     };
     Console.WriteLine();
-};
-
-
-void WaitSeconds(double sec){
-    System.Threading.Thread.Sleep((int)(sec * 1000));
 };
 
 
@@ -162,30 +139,5 @@ void ViewTitleTask(string? text = ""){
     );
     Console.ReadKey();
     Console.Clear();
-};
-
-
-int[] ReadIntegerArrayFromString(string write){
-    char[] charsToTrim = {' '};
-
-    while(true){
-        Console.Write($"{write} ");
-        // считываем данные
-        string? text = Console.ReadLine()?.Trim(charsToTrim);
-
-        if(text != String.Empty){            
-            string[] strArr = text.Split(',', '.', ' ');
-            int len = strArr.Length;
-            int[] intArr = new int[len];
-            for(int i = 0; i < len; i++){
-                intArr[i] = Convert.ToInt32(strArr[i]);
-            };
-
-            return intArr;
-        }else{
-            Console.WriteLine($"Attention: the data is incorrect!!!");
-            WaitSeconds(1);
-        };
-    };    
 };
 
