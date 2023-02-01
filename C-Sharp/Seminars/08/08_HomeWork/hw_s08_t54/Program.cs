@@ -50,7 +50,7 @@ void Run(){
         
         Console.WriteLine(
             $"Создан рандомный двумерный массив {arrRowLen} x {arrColLen} "+
-            $"вещественных чисел от {arrMin} до {arrMax}:"
+            $"чисел от {arrMin} до {arrMax}:"
         );
         ShowArrayTwoDimensionalInt(ArrayRandomInt);
         Console.WriteLine();        
@@ -102,7 +102,7 @@ int[,] SortMaxToMinArray(int[,] array){
 };
 
 
-// создаем рандомный массив вещественных чисел
+// создаем рандомный числовой массив 
 int[,] CreateRandomTwoDimensionalIntArray(int row, int col, int min, int max){
     int[,] RandomArray = new int[row, col];
 

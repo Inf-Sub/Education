@@ -69,7 +69,7 @@ void Run(){
         ArrayRandomInt = CreateRandom3DUniqueIntArray(arrXLen, arrYLen, arrZLen, arrMin, arrMax);
         
         Console.WriteLine($"{rn}Создан рандомный двумерный массив {arrXLen} x {arrYLen} x {arrZLen} "+
-        $"вещественных чисел от {arrMin} до {arrMax}:{rn}");
+        $"чисел от {arrMin} до {arrMax}:{rn}");
         WaitSeconds(1);
         
         // ыфводим созданный массив в консоль (для проверки и сравнения)
@@ -107,7 +107,7 @@ bool CheckUniqueParamsForArray(int lenX, int lenY, int lenZ, int min, int max){
 };
 
 
-// создаем рандомный 3D массив вещественных чисел
+// создаем рандомный числовой 3D массив
 int[,,] CreateRandom3DUniqueIntArray(int lenX, int lenY, int lenZ, int min, int max){
     int[,,] RandomArray = new int[lenX, lenY, lenZ];
     int randNumber;

@@ -109,7 +109,7 @@ int[,] MatrixMultiplication(int[,] ArrayA, int[,] ArrayB){
 };
 
 
-// создаем рандомный массив вещественных чисел
+// создаем рандомный числовой массив 
 int[,] CreateRandomTwoDimensionalIntArray(int row, int col, int min, int max){
     int[,] RandomArray = new int[row, col];
 
