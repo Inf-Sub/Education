@@ -1,0 +1,8 @@
+Как начать в базы данных и SQL
+https://t.me/iksergeyru/42
+
+SQL JOIN на примере PostgreSQL
+https://t.me/iksergeyru/72
+
+MySQL & Docker: быстрый старт
+https://t.me/iksergeyru/90

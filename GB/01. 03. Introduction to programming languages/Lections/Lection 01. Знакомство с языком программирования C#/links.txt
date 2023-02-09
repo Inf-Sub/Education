@@ -1,0 +1,7 @@
+Dotnet нужна 6 версия
+https://dotnet.microsoft.com/en-us/download
+
+Gitignore
+https://github.com/iksergey/gitignore/blob/main/VisualStudio.gitignore
+
+Что за -a git

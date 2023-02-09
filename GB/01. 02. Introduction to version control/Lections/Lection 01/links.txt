@@ -1,0 +1,8 @@
+Некоторые плагины для VS Code
+https://t.me/iksergeyru/21
+
+vs code
+https://code.visualstudio.com/
+
+git
+https://git-scm.com/downloads
