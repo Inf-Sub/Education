@@ -1,0 +1,10 @@
+Полезные ссылки и материалы:
+Памятка по git (все команды, которые мы изучали):
+Часть 1: https://habr.com/ru/post/541258/
+Часть 2: https://habr.com/ru/post/542616/
+
+Подробное описание команд git на русском языке
+1️. Настройка репозитория: https://www.atlassian.com/ru/git/tutorials/setting-up-a-repository
+2️. Сохранение изменений: https://www.atlassian.com/ru/git/tutorials/saving-changes
+3️. Проверка репозитория: https://www.atlassian.com/ru/git/tutorials/inspecting-a-repository
+4️. Отмена изменений: https://www.atlassian.com/ru/git/tutorials/undoing-changes
