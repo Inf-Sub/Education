@@ -1,6 +1,0 @@
-Полезные ссылки и материалы:
-Подробное описание команд git на русском языке
-1️. Настройка репозитория: https://www.atlassian.com/ru/git/tutorials/setting-up-a-repository
-2️. Сохранение изменений: https://www.atlassian.com/ru/git/tutorials/saving-changes
-3️. Проверка репозитория: https://www.atlassian.com/ru/git/tutorials/inspecting-a-repository
-4️. Отмена изменений: https://www.atlassian.com/ru/git/tutorials/undoing-changes
