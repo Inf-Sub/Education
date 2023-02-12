@@ -1,7 +1,7 @@
 # Задача. 
 ## Напишите программу, которая из имеющегося массива строк формирует массив из строк, длина которых меньше либо равна 3 символам.
 
-![Альтернативный текст]("/GB/01.\ 05.\ Choice\ of\ specialization/Seminars/01.\ 05.\ Choice\ of\ specialization.\ Test\ task.drawio.png" "Подсказка")
+![Альтернативный текст]("GB/01. 05. Choice of specialization/Seminars/01. 05. Choice of specialization. Test task.drawio.png" "Подсказка")
 
 
 
