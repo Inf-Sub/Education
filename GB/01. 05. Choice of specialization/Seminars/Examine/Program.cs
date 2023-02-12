@@ -14,7 +14,7 @@ void Run(){
         $"['hello', '2', 'world', ':-)'] -> ['2', ':-)']{rn}"+
         $"['1234', '1567', '-2', 'computer science'] -> ['-2']{rn}"+
         $"['Russia', 'Denmark', 'Kazan'] -> []{rn}";
-        
+
     string[][] arrWords = {
         new string[]{"hello", "2", "world", ":-)"},
         new string[]{"1234", "1567", "-2", "computer science"},
@@ -22,14 +22,35 @@ void Run(){
         new string[]{ "Sunday", "Monday", "Tuersday", "Wednesday", "Thirsday", "Friday", "Saturday" },
         // add your array here
     };
-        
 
     ViewTitleTask(title);
+    
     Console.Clear();
+
+    ShowSmallWord(arrWords, 3);
+
     Console.WriteLine(); 
 };
 
 
+void ShowSmallWord(string[][] arr, int chars){
+    int lenI = arr.Length;
+    int lenJ;
+    string SmallWorks;
+    char[] charsToTrim = {' '};
+
+    for(int i = 0; i < lenI; i++){
+        lenJ = arr[i].Length;
+        SmallWorks = String.Empty;
+
+        for(int j = 0; j < lenJ; j++){
+            if(arr[i][j].Length <= chars){
+                SmallWorks += $"{arr[i][j]} ";
+            };
+        };
+        Console.WriteLine($"[{String.Join(", ", arr[i])}] -> [{SmallWorks.Trim(charsToTrim).Replace(" ", ", ")}]");
+    };    
+};
 
 
 // ViewTitleTask version 2.1
