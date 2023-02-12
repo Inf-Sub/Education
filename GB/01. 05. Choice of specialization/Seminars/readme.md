@@ -1,7 +1,7 @@
 # Задача. 
 ## Напишите программу, которая из имеющегося массива строк формирует массив из строк, длина которых меньше либо равна 3 символам.
 
-![Блок-схема метода ShowSmallWord]("01. 05. Choice of specialization. Test task.drawio.png" "Блок-схема метода ShowSmallWord")
+![Блок-схема метода ShowSmallWord]("test_task.drawio.png" "Блок-схема метода ShowSmallWord")
 
 
 
