@@ -28,7 +28,7 @@ void Run(){
     Console.Clear();
 
     for(int i = 0; i < arrWords.Length; i++){
-        Console.WriteLine($"[{String.Join("", ShowSmallWord(arrWords[i], 3))}]");
+        Console.WriteLine($"[{String.Join(",", ShowSmallWord(arrWords[i], 3))}]");
     };
 
     Console.WriteLine(); 
