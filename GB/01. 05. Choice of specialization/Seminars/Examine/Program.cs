@@ -1,4 +1,5 @@
-﻿Run();
+﻿
+Run();
 
 
 void Run(){
@@ -40,13 +41,19 @@ void ShowSmallWord(string[][] arr, int chars){
     for(int i = 0; i < lenI; i++){
         lenJ = arr[i].Length;
         arrSmallWords = new string[lenJ];
+        int k = 0;
 
         for(int j = 0; j < lenJ; j++){
+            arrSmallWords[j] = String.Empty;
             if(arr[i][j].Length <= chars){
-                arrSmallWords[j] = $"{arr[i][j]} ";
+                if(k > 0){
+                    arrSmallWords[j] = ",";
+                };
+                k++;
+                arrSmallWords[j] += $"'{arr[i][j]}'";
             };
         };
-        Console.WriteLine($"[{String.Join(", ", arr[i])}] -> [{String.Join(", ", arrSmallWords)}]");
+        Console.WriteLine($"[{String.Join(",", arr[i])}] -> [{String.Join("", arrSmallWords)}]");
     };    
 };
 
