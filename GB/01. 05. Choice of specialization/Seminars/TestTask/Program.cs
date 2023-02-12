@@ -15,13 +15,45 @@ void Run(){
         $"['1234', '1567', '-2', 'computer science'] -> ['-2']{rn}"+
         $"['Russia', 'Denmark', 'Kazan'] -> []{rn}";
 
+    string[][] arrWords = {
+        new string[]{"hello", "2", "world", ":-)"},
+        new string[]{"1234", "1567", "-2", "computer science"},
+        new string[]{"Russia", "Denmark", "Kazan", "Ufa", "Omsk"},
+        new string[]{ "Sunday", "Monday", "Tuersday", "Wednesday", "Thirsday", "Friday", "Saturday" },
+        // add your array here
+    };
 
     ViewTitleTask(title);
     
     Console.Clear();
 
+    for(int i = 0; i < arrWords.Length; i++){
+        Console.WriteLine($"[{String.Join("", ShowSmallWord(arrWords[i], 3))}]");
+    };
 
     Console.WriteLine(); 
+};
+
+
+string[] ShowSmallWord(string[] arr, int chars){
+    int len = arr.Length;
+    string[] arrSmallWords;
+    int count = 0;
+
+    for(int i = 0; i < len; i++){
+        if(arr[i].Length <= chars){
+            count++;
+        };
+    };
+
+    arrSmallWords = new string[count];
+    count = 0;
+    for(int i = 0; i < len; i++){
+        if(arr[i].Length <= chars){
+            arrSmallWords[count++] = arr[i];
+        };
+    };
+    return arrSmallWords;  
 };
 
 
