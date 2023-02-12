@@ -1,32 +1,4 @@
-﻿
-string[][] arrWords = {
-    new string[]{"hello", "2", "world", ":-)"},
-    new string[]{"1234", "1567", "-2", "computer science"},
-    new string[]{"Russia", "Denmark", "Kazan", "Ufa", "Omsk"},
-    new string[]{ "Sunday", "Monday", "Tuersday", "Wednesday", "Thirsday", "Friday", "Saturday" },
-    // add your array here
-};
-
-int lenI = arrWords.Length;
-int chars = 3;
-int lenJ;
-string smallWords;
-char[] charsToTrim = {' '};
-
-for(int i = 0; i < lenI; i++){
-    lenJ = arrWords[i].Length;
-    smallWords = String.Empty;
-
-    for(int j = 0; j < lenJ; j++){
-        if(arrWords[i][j].Length <= chars){
-            smallWords += $"{arrWords[i][j]} ";
-        };
-    };
-    Console.WriteLine($"[{String.Join(", ", arrWords[i])}] -> [{smallWords.Trim(charsToTrim).Replace(" ", ", ")}]");
-};  
-
-/*
-Run();
+﻿Run();
 
 
 void Run(){
@@ -63,19 +35,18 @@ void Run(){
 void ShowSmallWord(string[][] arr, int chars){
     int lenI = arr.Length;
     int lenJ;
-    string smallWords;
-    char[] charsToTrim = {' '};
+    string[] arrSmallWords;
 
     for(int i = 0; i < lenI; i++){
         lenJ = arr[i].Length;
-        smallWords = String.Empty;
+        arrSmallWords = new string[lenJ];
 
         for(int j = 0; j < lenJ; j++){
             if(arr[i][j].Length <= chars){
-                smallWords += $"{arr[i][j]} ";
+                arrSmallWords[j] = $"{arr[i][j]} ";
             };
         };
-        Console.WriteLine($"[{String.Join(", ", arr[i])}] -> [{smallWords.Trim(charsToTrim).Replace(" ", ", ")}]");
+        Console.WriteLine($"[{String.Join(", ", arr[i])}] -> [{String.Join(", ", arrSmallWords)}]");
     };    
 };
 
@@ -92,4 +63,3 @@ void ViewTitleTask(string? text = ""){
     Console.ReadKey();
     Console.Clear();
 };
-*/
