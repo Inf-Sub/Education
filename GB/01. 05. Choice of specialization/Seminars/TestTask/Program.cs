@@ -1,2 +1,14 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿
+Run();
+
+
+void Run(){
+    string rn = "\n";
+    string title = "";
+    
+    Console.Clear();
+
+    Console.WriteLine(); 
+};
+
+
