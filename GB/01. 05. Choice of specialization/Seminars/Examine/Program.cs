@@ -15,6 +15,14 @@ void Run(){
         $"['1234', '1567', '-2', 'computer science'] -> ['-2']{rn}"+
         $"['Russia', 'Denmark', 'Kazan'] -> []{rn}";
         
+    string[][] arrWords = {
+        new string[]{"hello", "2", "world", ":-)"},
+        new string[]{"1234", "1567", "-2", "computer science"},
+        new string[]{"Russia", "Denmark", "Kazan", "Ufa", "Omsk"},
+        new string[]{ "Sunday", "Monday", "Tuersday", "Wednesday", "Thirsday", "Friday", "Saturday" },
+        // add your array here
+    };
+        
 
     ViewTitleTask(title);
     Console.Clear();
