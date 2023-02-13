@@ -60,14 +60,14 @@ string[] ShowSmallWord(string[] arr, int chars){
 string[] ShowSmallWord(string[] arr, int chars){
     int len = arr.Length;
     string smallWords = String.Empty;
-    int k = 0;
+    int count = 0;
 
     for(int i = 0; i < len; i++){
         if(arr[i].Length <= chars){
-            if(k > 0){
+            if(count > 0){
                 smallWords += ",";
             };
-            k++;
+            count++;
             smallWords += $"{arr[i]}";
         };
     };
