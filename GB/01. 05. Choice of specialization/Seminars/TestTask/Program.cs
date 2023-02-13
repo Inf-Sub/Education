@@ -34,7 +34,7 @@ void Run(){
     Console.WriteLine(); 
 };
 
-
+/*
 string[] ShowSmallWord(string[] arr, int chars){
     int len = arr.Length;
     string[] arrSmallWords;
@@ -54,7 +54,26 @@ string[] ShowSmallWord(string[] arr, int chars){
         };
     };
     return arrSmallWords;  
+};*/
+
+
+string[] ShowSmallWord(string[] arr, int chars){
+    int len = arr.Length;
+    string smallWords = String.Empty;
+    int k = 0;
+
+    for(int i = 0; i < len; i++){
+        if(arr[i].Length <= chars){
+            if(k > 0){
+                smallWords += ",";
+            };
+            k++;
+            smallWords += $"{arr[i]}";
+        };
+    };
+    return smallWords.Split(",");
 };
+
 
 
 // ViewTitleTask version 2.1
